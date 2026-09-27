@@ -1,0 +1,16 @@
+# Local PostgreSQL for development: `docker compose up -d`
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cadence
+      POSTGRES_PASSWORD: cadence
+      POSTGRES_DB: cadence
+    ports:
+      - "5432:5432"
+    volumes:
+      - cadence-db:/var/lib/postgresql/data
+
+volumes:
+  cadence-db:

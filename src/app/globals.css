@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* Design tokens: we name colors by their ROLE (surface, muted…) instead of
+   their value (gray-100). Dark mode then only has to change the values. */
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --surface-2: #f0efeb;
+  --border: #e6e4de;
+  --text: #1c1b19;
+  --muted: #6f6c64;
+  --accent: #5b5bd6;
+  --accent-soft: #ecebfb;
+  --accent-text: #ffffff;
+  --danger: #d6455b;
+  --warning: #c77c0e;
+  --warning-soft: #fdf2e0;
+  --success: #2f9e6e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121211;
+    --surface: #1b1b19;
+    --surface-2: #252522;
+    --border: #2f2f2b;
+    --text: #eeede9;
+    --muted: #9e9b92;
+    --accent: #8b8bf0;
+    --accent-soft: #26264a;
+    --accent-text: #121211;
+    --danger: #f0768a;
+    --warning: #eaa54a;
+    --warning-soft: #3a2c16;
+    --success: #5cc497;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success: var(--success);
+  --font-sans: var(--font-geist-sans);
+}
+
+html {
+  color-scheme: light dark;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
