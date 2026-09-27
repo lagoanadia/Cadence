@@ -9,22 +9,13 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { type DayKey, dayKeyToDate, isDayKey } from "@/lib/dates";
 import { errorState, type FormState, successState, validationError } from "@/lib/form";
+import { ownedAreaId } from "@/lib/ownership";
 import { requireUserId } from "@/lib/session";
 import { parseRecurringTaskForm, parseRoutineForm, parseTaskForm } from "./schemas";
 
 /** Refresh every page, so lists and counters show the change right away. */
 function refreshApp(): void {
   revalidatePath("/", "layout");
-}
-
-/**
- * The browser could send ANY areaId, even one from another user.
- * We only accept it if that area belongs to the current user.
- */
-async function ownedAreaId(userId: string, areaId: string | undefined): Promise<string | null> {
-  if (!areaId) return null;
-  const area = await db.area.findFirst({ where: { id: areaId, userId }, select: { id: true } });
-  return area?.id ?? null;
 }
 
 // ─────────────── One-off tasks ───────────────

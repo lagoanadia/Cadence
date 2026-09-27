@@ -1,61 +1,56 @@
-import { BookOpen, ChevronRight, Dumbbell, House, LayoutDashboard, type LucideIcon, Receipt, Repeat, Settings } from "lucide-react";
+import {
+  BookOpen,
+  ChevronRight,
+  Dumbbell,
+  LayoutDashboard,
+  type LucideIcon,
+  Repeat,
+  Settings,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageHeader } from "@/components/ui/page-header";
 import { requireUserId } from "@/lib/session";
 
 export const metadata: Metadata = { title: "More" };
 
-type Entry = { href: string | null; label: string; description: string; icon: LucideIcon };
+type Entry = { href: string; label: string; icon: LucideIcon; color: string };
 
-// href: null = module arriving in a later phase
-const ENTRIES: Entry[] = [
-  { href: "/agenda/plans", label: "Routines & repeating", description: "Checklists and recurring tasks", icon: Repeat },
-  { href: null, label: "Expenses", description: "Quick spending log and budget", icon: Receipt },
-  { href: null, label: "Home", description: "Chores and when you last did them", icon: House },
-  { href: null, label: "Growth areas", description: "Where your attention went this week", icon: LayoutDashboard },
-  { href: null, label: "Reading", description: "Books and pages read", icon: BookOpen },
-  { href: null, label: "Health & Movement", description: "Workouts and your own metrics", icon: Dumbbell },
-  { href: "/settings", label: "Settings", description: "Timezone, week start, account", icon: Settings },
+// Grouped like the iOS Settings app: colored icon tiles, one list per group
+const GROUPS: Entry[][] = [
+  [
+    { href: "/areas", label: "Growth areas", icon: LayoutDashboard, color: "var(--c-magenta)" },
+    { href: "/reading", label: "Reading", icon: BookOpen, color: "var(--c-violet)" },
+    { href: "/health", label: "Health & Movement", icon: Dumbbell, color: "var(--c-aqua)" },
+  ],
+  [{ href: "/agenda/plans", label: "Routines & repeating", icon: Repeat, color: "var(--c-blue)" }],
+  [{ href: "/settings", label: "Settings", icon: Settings, color: "#8e8e93" }],
 ];
 
 export default async function MorePage() {
   await requireUserId();
 
   return (
-    <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold tracking-tight">More</h1>
-      <ul className="flex flex-col gap-2">
-        {ENTRIES.map((entry) => {
-          const content = (
-            <>
-              <span className="flex size-10 items-center justify-center rounded-xl bg-surface-2">
-                <entry.icon className="size-5" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block font-medium">{entry.label}</span>
-                <span className="block text-sm text-muted">{entry.description}</span>
-              </span>
-              {entry.href ? (
+    <div className="flex flex-col gap-7">
+      <PageHeader title="More" />
+      {GROUPS.map((group) => (
+        <ul key={group[0].href} className="ios-list ios-rows [--row-inset:58px]">
+          {group.map((entry) => (
+            <li key={entry.href}>
+              <Link href={entry.href} className="flex items-center gap-3 px-4 py-2.5 active:bg-surface-2">
+                <span
+                  className="flex size-[30px] items-center justify-center rounded-[8px] text-white"
+                  style={{ backgroundColor: entry.color }}
+                >
+                  <entry.icon className="size-[18px]" />
+                </span>
+                <span className="flex-1 text-[17px]">{entry.label}</span>
                 <ChevronRight className="size-4 text-muted" />
-              ) : (
-                <span className="rounded-full bg-surface-2 px-2 py-0.5 text-xs text-muted">Soon</span>
-              )}
-            </>
-          );
-          const className = "flex items-center gap-3 rounded-2xl bg-surface px-4 py-3";
-          return (
-            <li key={entry.label}>
-              {entry.href ? (
-                <Link href={entry.href} className={className}>
-                  {content}
-                </Link>
-              ) : (
-                <div className={`${className} opacity-60`}>{content}</div>
-              )}
+              </Link>
             </li>
-          );
-        })}
-      </ul>
+          ))}
+        </ul>
+      ))}
     </div>
   );
 }

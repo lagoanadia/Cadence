@@ -38,17 +38,17 @@ export function PlansManager({ areas, today, recurringTasks, routines }: Props) 
         {routines.length === 0 ? (
           <Empty text="No routines yet." />
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="ios-list ios-rows">
             {routines.map((routine) => (
               <li key={routine.id}>
                 <button
                   type="button"
                   onClick={() => setEditing({ type: "routine", routine })}
-                  className="flex w-full items-center gap-3 rounded-2xl bg-surface px-4 py-3 text-left"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-surface-2"
                 >
                   <span className="min-w-0 flex-1">
-                    <span className="block font-medium">{routine.name}</span>
-                    <span className="flex flex-wrap gap-x-3 text-xs text-muted">
+                    <span className="block text-[17px]">{routine.name}</span>
+                    <span className="flex flex-wrap gap-x-3 text-[13px] text-muted">
                       <span>{routine.ruleLabel}</span>
                       <span>{routine.steps.length} steps</span>
                       {routine.area && <AreaTag area={routine.area} />}
@@ -71,17 +71,17 @@ export function PlansManager({ areas, today, recurringTasks, routines }: Props) 
         {recurringTasks.length === 0 ? (
           <Empty text="No recurring tasks yet." />
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="ios-list ios-rows">
             {recurringTasks.map((recurring) => (
               <li key={recurring.id}>
                 <button
                   type="button"
                   onClick={() => setEditing({ type: "recurring", recurring })}
-                  className="flex w-full items-center gap-3 rounded-2xl bg-surface px-4 py-3 text-left"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-surface-2"
                 >
                   <span className="min-w-0 flex-1">
-                    <span className="block font-medium">{recurring.title}</span>
-                    <span className="flex flex-wrap gap-x-3 text-xs text-muted">
+                    <span className="block text-[17px]">{recurring.title}</span>
+                    <span className="flex flex-wrap gap-x-3 text-[13px] text-muted">
                       <span>{recurring.ruleLabel}</span>
                       {recurring.time && (
                         <span className="inline-flex items-center gap-1">
@@ -129,17 +129,17 @@ type SectionHeaderProps = {
 
 function SectionHeader({ title, description, onAdd }: SectionHeaderProps) {
   return (
-    <div className="flex items-end justify-between gap-3 px-1">
+    <div className="flex items-end justify-between gap-3 px-4">
       <div>
-        <h2 className="font-semibold">{title}</h2>
-        <p className="text-sm text-muted">{description}</p>
+        <h2 className="text-[20px] font-bold tracking-tight">{title}</h2>
+        <p className="text-[13px] text-muted">{description}</p>
       </div>
       <button
         type="button"
         onClick={onAdd}
-        className="flex shrink-0 items-center gap-1 rounded-xl bg-accent-soft px-3 py-2 text-sm font-medium text-accent"
+        className="flex shrink-0 items-center gap-1 text-[17px] text-accent active:opacity-60"
       >
-        <Plus className="size-4" />
+        <Plus className="size-5" />
         Add
       </button>
     </div>
@@ -152,6 +152,6 @@ type EmptyProps = {
 
 function Empty({ text }: EmptyProps) {
   return (
-    <p className="rounded-2xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted">{text}</p>
+    <p className="ios-list px-4 py-6 text-center text-[15px] text-muted">{text}</p>
   );
 }

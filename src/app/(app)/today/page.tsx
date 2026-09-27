@@ -3,7 +3,11 @@ import { AgendaItemRow } from "@/features/agenda/components/agenda-item-row";
 import { DayAgenda } from "@/features/agenda/components/day-agenda";
 import { getAgendaContext } from "@/features/agenda/context";
 import { getAgenda, getOverdueTasks } from "@/features/agenda/queries";
-import { formatDay, relativeDayLabel } from "@/lib/dates";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { getAreaActivity } from "@/features/areas/queries";
+import { addDays, formatDay, relativeDayLabel, startOfWeek } from "@/lib/dates";
+import { cssColor } from "@/lib/palette";
 
 export const metadata: Metadata = { title: "Today" };
 
@@ -17,21 +21,46 @@ function greeting(timeZone: string): string {
 
 export default async function TodayPage() {
   const { userId, settings, areas, today } = await getAgendaContext();
-  const [[day], overdue] = await Promise.all([getAgenda(userId, today, today), getOverdueTasks(userId, today)]);
+  const weekStart = startOfWeek(today, settings.weekStartsOn);
+  const [[day], overdue, activity] = await Promise.all([
+    getAgenda(userId, today, today),
+    getOverdueTasks(userId, today),
+    getAreaActivity(userId, weekStart, addDays(weekStart, 6)),
+  ]);
+  const attended = areas.filter((area) => activity.has(area.id)).length;
 
   return (
-    <div className="flex flex-col gap-6">
-      <header>
-        <p className="text-sm text-muted">{formatDay(today, { weekday: "long", day: "numeric", month: "long" })}</p>
-        <h1 className="text-2xl font-semibold tracking-tight">{greeting(settings.timezone)}</h1>
+    <div className="flex flex-col gap-7">
+      <header className="pt-9">
+        <p className="text-[13px] font-semibold text-muted uppercase tracking-wide">
+          {formatDay(today, { weekday: "long", day: "numeric", month: "long" })}
+        </p>
+        <h1 className="large-title">{greeting(settings.timezone)}</h1>
       </header>
 
+      <Link href="/areas" className="ios-list flex items-center gap-3 px-4 py-3 active:bg-surface-2">
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-semibold">This week</span>
+          <span className="block text-[13px] text-muted">
+            {settings.privateMode ? "Your areas at a glance" : `${attended} of ${areas.length} areas got your time`}
+          </span>
+          <span className="mt-2 flex gap-1" aria-hidden>
+            {areas.map((area) => (
+              <span
+                key={area.id}
+                className="h-1.5 flex-1 rounded-full"
+                style={{ backgroundColor: activity.has(area.id) ? cssColor(area.color) : "var(--surface-2)" }}
+              />
+            ))}
+          </span>
+        </span>
+        <ChevronRight className="size-4 text-muted" />
+      </Link>
+
       {overdue.length > 0 && (
-        <section className="flex flex-col gap-2 rounded-3xl bg-warning-soft p-3">
-          <h2 className="px-1 text-sm font-medium text-warning">
-            Still open from before · pick them up or move them to today
-          </h2>
-          <ul className="flex flex-col gap-2">
+        <section className="flex flex-col gap-2">
+          <h2 className="section-title">Still open from before</h2>
+          <ul className="ios-list ios-rows [--row-inset:52px]">
             {overdue.map((task) => (
               <AgendaItemRow
                 key={task.id}

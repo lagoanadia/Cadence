@@ -31,12 +31,14 @@ type Props = {
   done: boolean;
   label: string;
   onToggle: () => void;
+  /** CSS color (e.g. from cssColor()) for the ring and the filled state */
   color?: string;
   size?: "md" | "sm";
 };
 
-export function CheckCircle({ done, label, onToggle, color, size = "md" }: Props) {
-  const box = size === "md" ? "size-6" : "size-5";
+/** A round checkbox like the one in Apple's Reminders app. */
+export function CheckCircle({ done, label, onToggle, color = "var(--accent)", size = "md" }: Props) {
+  const box = size === "md" ? "size-[22px]" : "size-5";
   return (
     <button
       type="button"
@@ -45,15 +47,16 @@ export function CheckCircle({ done, label, onToggle, color, size = "md" }: Props
       aria-label={label}
       onClick={onToggle}
       // The padding makes the tap target bigger than the circle (good for thumbs)
-      className="-m-2 shrink-0 p-2"
+      className="-m-2.5 shrink-0 p-2.5"
     >
       <span
-        className={`flex ${box} items-center justify-center rounded-full border-2 transition ${
-          done ? "border-transparent bg-accent text-accent-text" : "border-border"
-        }`}
-        style={done && color ? { backgroundColor: color } : undefined}
+        className={`flex ${box} items-center justify-center rounded-full border-[1.5px] transition active:scale-90`}
+        style={{
+          borderColor: done ? color : "color-mix(in srgb, var(--muted) 60%, transparent)",
+          backgroundColor: done ? color : "transparent",
+        }}
       >
-        {done && <Check className="size-3.5" strokeWidth={3} />}
+        {done && <Check className="size-3.5 text-white" strokeWidth={3.5} />}
       </span>
     </button>
   );

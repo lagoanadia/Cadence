@@ -14,10 +14,10 @@ export function DayAgenda({ day, areas, today }: Props) {
   const pending = day.items.filter((item) => !item.done).length;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-7">
       {day.routines.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h2 className="px-1 text-sm font-medium text-muted">Routines</h2>
+          <h2 className="section-title">Routines</h2>
           {day.routines.map((routine) => (
             <RoutineCard key={routine.id} routine={routine} />
           ))}
@@ -25,16 +25,16 @@ export function DayAgenda({ day, areas, today }: Props) {
       )}
 
       <section className="flex flex-col gap-2">
-        <h2 className="flex justify-between px-1 text-sm font-medium text-muted">
+        <h2 className="section-title flex justify-between">
           <span>Tasks</span>
-          {day.items.length > 0 && <span>{pending === 0 ? "All done 🎉" : `${pending} to go`}</span>}
+          {day.items.length > 0 && <span className="normal-case">{pending === 0 ? "All done 🎉" : `${pending} to go`}</span>}
         </h2>
         {day.items.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border px-4 py-6 text-center text-sm text-muted">
+          <p className="ios-list px-4 py-6 text-center text-[15px] text-muted">
             Nothing planned. Enjoy the space — or tap + to add something.
           </p>
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="ios-list ios-rows [--row-inset:52px]">
             {day.items.map((item) => (
               <AgendaItemRow key={`${item.kind}-${item.id}`} item={item} areas={areas} today={today} />
             ))}

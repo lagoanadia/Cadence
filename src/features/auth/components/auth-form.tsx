@@ -46,7 +46,7 @@ export function AuthForm({ mode }: Props) {
 
       <SubmitButton pending={pending} className="mt-1 w-full">{mode === "login" ? "Log in" : "Create account"}</SubmitButton>
 
-      <p className="text-center text-sm text-muted">
+      <p className="text-center text-[15px] text-muted">
         {mode === "login" ? (
           <>
             New here?{" "}

@@ -1,6 +1,7 @@
-import { ChevronLeft, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { PageHeader } from "@/components/ui/page-header";
+import { PrivateModeRow } from "@/features/areas/components/area-controls";
 import { signOutAction } from "@/features/auth/actions";
 import { SettingsForm } from "@/features/settings/settings-form";
 import { auth } from "@/lib/auth";
@@ -11,21 +12,23 @@ export const metadata: Metadata = { title: "Settings" };
 export default async function SettingsPage() {
   const userId = await requireUserId();
   const [session, settings] = await Promise.all([auth(), getUserSettings(userId)]);
+  const name = session?.user.name ?? "You";
 
   return (
-    <div className="flex flex-col gap-6">
-      <header>
-        <Link href="/more" className="-ml-1 inline-flex items-center gap-1 text-sm text-muted">
-          <ChevronLeft className="size-4" />
-          More
-        </Link>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight">Settings</h1>
-      </header>
+    <div className="flex flex-col gap-7">
+      <PageHeader title="Settings" back={{ href: "/more", label: "More" }} />
 
-      <section className="rounded-2xl bg-surface p-4">
-        <p className="font-medium">{session?.user.name ?? "You"}</p>
-        <p className="text-sm text-muted">{session?.user.email}</p>
+      <section className="ios-list flex items-center gap-3 p-4">
+        <span className="flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-[var(--c-blue)] to-[var(--c-violet)] text-[22px] font-semibold text-white">
+          {name.charAt(0).toUpperCase()}
+        </span>
+        <span className="min-w-0">
+          <span className="block text-[20px] font-semibold">{name}</span>
+          <span className="block truncate text-[15px] text-muted">{session?.user.email}</span>
+        </span>
       </section>
+
+      <PrivateModeRow privateMode={settings.privateMode} />
 
       <SettingsForm
         timezone={settings.timezone}
@@ -36,9 +39,9 @@ export default async function SettingsPage() {
       <form action={signOutAction}>
         <button
           type="submit"
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-surface px-4 py-3 text-sm font-medium text-danger"
+          className="ios-list flex w-full items-center justify-center gap-2 px-4 py-3 text-[17px] text-danger active:bg-surface-2"
         >
-          <LogOut className="size-4" />
+          <LogOut className="size-5" />
           Log out
         </button>
       </form>

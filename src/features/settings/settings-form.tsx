@@ -15,7 +15,7 @@ export function SettingsForm({ timezone, weekStartsOn, timezones }: Props) {
   const { state, pending, onSubmit, errors } = useActionForm(saveSettingsAction, () => {});
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 rounded-2xl bg-surface p-4">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <Field label="Timezone" htmlFor="timezone" errors={errors.timezone} hint="Decides when your day starts.">
         <Select id="timezone" name="timezone" defaultValue={timezone}>
           {timezones.map((tz) => (

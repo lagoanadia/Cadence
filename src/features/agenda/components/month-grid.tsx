@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { AgendaDay } from "@/features/agenda/queries";
 import { type DayKey, type MonthKey, monthOf, weekdayLabels } from "@/lib/dates";
+import { cssColor } from "@/lib/palette";
 
 type Props = {
   month: MonthKey;
@@ -14,8 +15,8 @@ const MAX_DOTS = 4;
 
 export function MonthGrid({ month, days, today, weekStartsOn }: Props) {
   return (
-    <div className="rounded-2xl bg-surface p-2">
-      <div className="grid grid-cols-7 pb-1 text-center text-xs font-medium text-muted">
+    <div className="ios-list p-2">
+      <div className="grid grid-cols-7 pb-1 text-center text-[11px] font-semibold text-muted uppercase">
         {weekdayLabels(weekStartsOn).map((label) => (
           <span key={label}>{label}</span>
         ))}
@@ -36,26 +37,26 @@ export function MonthGrid({ month, days, today, weekStartsOn }: Props) {
               key={day.date}
               href={`/agenda/day/${day.date}`}
               aria-label={`${day.date}: ${day.items.length} tasks`}
-              className={`flex aspect-square flex-col items-center gap-1 rounded-xl pt-1.5 text-sm hover:bg-surface-2 ${
+              className={`flex aspect-square flex-col items-center gap-1 rounded-[10px] pt-1.5 text-[17px] active:bg-surface-2 ${
                 inMonth ? "" : "opacity-35"
               }`}
             >
               <span
-                className={`flex size-7 items-center justify-center rounded-full tabular-nums ${
+                className={`flex size-8 items-center justify-center rounded-full tabular ${
                   isToday ? "bg-accent font-semibold text-accent-text" : ""
                 }`}
               >
                 {Number(day.date.slice(8))}
               </span>
               {allDone ? (
-                <span className="text-[10px] leading-none text-success">✓</span>
+                <span className="text-[11px] leading-none font-bold text-success">✓</span>
               ) : (
                 <span className="flex flex-wrap justify-center gap-0.5 px-1">
                   {pending.slice(0, MAX_DOTS).map((item) => (
                     <span
                       key={`${item.kind}-${item.id}`}
                       className="size-1.5 rounded-full"
-                      style={{ backgroundColor: item.area?.color ?? "var(--muted)" }}
+                      style={{ backgroundColor: item.area ? cssColor(item.area.color) : "var(--muted)" }}
                     />
                   ))}
                 </span>

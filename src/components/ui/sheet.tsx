@@ -11,9 +11,9 @@ type Props = {
 };
 
 /**
- * A bottom sheet built on the native <dialog> element. The browser gives us
- * for free: closing with Esc, trapping keyboard focus inside, and the backdrop.
- * On bigger screens it becomes a centered modal.
+ * An iOS-style bottom sheet built on the native <dialog> element. The browser
+ * gives us for free: closing with Esc, trapping keyboard focus inside, and the
+ * backdrop. On bigger screens it becomes a centered modal.
  */
 export function Sheet({ open, onClose, title, children }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -41,19 +41,19 @@ export function Sheet({ open, onClose, title, children }: Props) {
       onClick={(event) => {
         if (event.target === ref.current) onClose();
       }}
-      className="m-0 mt-auto w-full max-w-none rounded-t-3xl bg-surface p-0 text-text backdrop:bg-black/40 sm:m-auto sm:max-w-md sm:rounded-3xl"
+      className="m-0 mt-auto w-full max-w-none rounded-t-[14px] bg-bg p-0 text-text backdrop:bg-black/30 open:animate-[sheet-in_0.28s_cubic-bezier(0.32,0.72,0,1)] sm:m-auto sm:max-w-md sm:rounded-[14px]"
     >
-      <div className="max-h-[85dvh] overflow-y-auto px-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-        <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-border sm:hidden" />
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">{title}</h2>
+      <div className="max-h-[88dvh] overflow-y-auto px-4 pt-2 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+        <div className="mx-auto mb-2 h-[5px] w-9 rounded-full bg-muted/40 sm:hidden" />
+        <div className="relative mb-5 flex items-center justify-center">
+          <h2 className="text-[17px] font-semibold">{title}</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="rounded-full p-2 text-muted hover:bg-surface-2"
+            className="absolute right-0 flex size-[30px] items-center justify-center rounded-full bg-surface-2 text-muted"
           >
-            <X className="size-5" />
+            <X className="size-4" strokeWidth={2.5} />
           </button>
         </div>
         {open && children}

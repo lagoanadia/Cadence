@@ -210,7 +210,7 @@ model Expense {
   categoryId  String?
   note        String?
   date        DateTime         @db.Date
-  receiptUrl  String?
+  receiptPath String? // private Blob pathname, served through /api/receipts/[id]
   areaId      String?
   createdAt   DateTime         @default(now())
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -1,38 +1,61 @@
 @import "tailwindcss";
 
-/* Design tokens: we name colors by their ROLE (surface, muted…) instead of
-   their value (gray-100). Dark mode then only has to change the values. */
+/* ─────────────────────────────────────────────────────────────────────────
+   Design tokens, modelled on Apple's iOS "system colors".
+   We name colors by ROLE (surface, muted…) instead of by value, so dark mode
+   only has to swap the values. Text colors use Apple's *accessible* variants
+   where the default ones are too light to read on white.
+   ───────────────────────────────────────────────────────────────────────── */
 :root {
-  --bg: #f7f6f3;
-  --surface: #ffffff;
-  --surface-2: #f0efeb;
-  --border: #e6e4de;
-  --text: #1c1b19;
-  --muted: #6f6c64;
-  --accent: #5b5bd6;
-  --accent-soft: #ecebfb;
+  --bg: #f2f2f7; /* systemGroupedBackground */
+  --surface: #ffffff; /* secondarySystemGroupedBackground */
+  --surface-2: #e9e9ee; /* tertiary fill */
+  --border: #d1d1d6; /* separator */
+  --text: #000000;
+  --muted: #6c6c70; /* secondaryLabel, darkened for contrast */
+  --accent: #007aff; /* systemBlue */
+  --accent-soft: #e5f1ff;
   --accent-text: #ffffff;
-  --danger: #d6455b;
-  --warning: #c77c0e;
-  --warning-soft: #fdf2e0;
-  --success: #2f9e6e;
+  --danger: #d70015;
+  --warning: #c93400;
+  --warning-soft: #fff3e3;
+  --success: #248a3d;
+
+  /* Validated categorical palette (areas, categories, charts) — see src/lib/palette.ts */
+  --c-blue: #2a78d6;
+  --c-orange: #eb6834;
+  --c-aqua: #1baf7a;
+  --c-yellow: #eda100;
+  --c-magenta: #e87ba4;
+  --c-green: #008300;
+  --c-violet: #4a3aa7;
+  --c-red: #e34948;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #121211;
-    --surface: #1b1b19;
-    --surface-2: #252522;
-    --border: #2f2f2b;
-    --text: #eeede9;
-    --muted: #9e9b92;
-    --accent: #8b8bf0;
-    --accent-soft: #26264a;
-    --accent-text: #121211;
-    --danger: #f0768a;
-    --warning: #eaa54a;
-    --warning-soft: #3a2c16;
-    --success: #5cc497;
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --surface-2: #2c2c2e;
+    --border: #38383a;
+    --text: #ffffff;
+    --muted: #98989f;
+    --accent: #0a84ff;
+    --accent-soft: #0a2a4d;
+    --accent-text: #ffffff;
+    --danger: #ff453a;
+    --warning: #ff9f0a;
+    --warning-soft: #2e2107;
+    --success: #30d158;
+
+    --c-blue: #3987e5;
+    --c-orange: #d95926;
+    --c-aqua: #199e70;
+    --c-yellow: #c98500;
+    --c-magenta: #d55181;
+    --c-green: #008300;
+    --c-violet: #9085e9;
+    --c-red: #e66767;
   }
 }
 
@@ -50,15 +73,82 @@
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
   --color-success: var(--success);
-  --font-sans: var(--font-geist-sans);
+  /* On Apple devices this is SF Pro; elsewhere Inter, which looks very similar */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--font-inter), system-ui, sans-serif;
 }
 
 html {
   color-scheme: light dark;
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+  font-size: 17px; /* iOS body text size */
+  letter-spacing: -0.01em;
+}
+
+/* ── iOS "inset grouped" list: white rounded block, hairline separators ── */
+@utility ios-list {
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+/* Separator between rows, starting where the text starts (like iOS) */
+@utility ios-rows {
+  & > * {
+    position: relative;
+  }
+  & > * + *::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: var(--row-inset, 16px);
+    height: 1px;
+    transform: scaleY(0.5);
+    transform-origin: top;
+    background: var(--border);
+  }
+}
+
+/* Small grey section title above a grouped list */
+@utility section-title {
+  padding-inline: 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+@utility large-title {
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sheets slide up from the bottom, with the easing curve iOS uses */
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::backdrop {
+    animation: none !important;
+    transition: none !important;
+  }
 }

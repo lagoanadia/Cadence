@@ -1,6 +1,5 @@
-import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { PageHeader } from "@/components/ui/page-header";
 import { PlansManager } from "@/features/agenda/components/plans-manager";
 import { getAgendaContext } from "@/features/agenda/context";
 import { listRecurringTasks, listRoutines } from "@/features/agenda/queries";
@@ -13,13 +12,7 @@ export default async function PlansPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <header>
-        <Link href="/agenda" className="-ml-1 inline-flex items-center gap-1 text-sm text-muted">
-          <ChevronLeft className="size-4" />
-          Agenda
-        </Link>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight">Repeating</h1>
-      </header>
+      <PageHeader title="Repeating" back={{ href: "/agenda", label: "Agenda" }} />
       <PlansManager areas={areas} today={today} recurringTasks={recurringTasks} routines={routines} />
     </div>
   );

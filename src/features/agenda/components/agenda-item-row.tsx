@@ -8,6 +8,7 @@ import { Sheet } from "@/components/ui/sheet";
 import { moveTaskToDayAction, toggleOccurrenceAction, toggleTaskAction } from "@/features/agenda/actions";
 import type { AgendaItem, AreaSummary } from "@/features/agenda/queries";
 import type { DayKey } from "@/lib/dates";
+import { cssColor } from "@/lib/palette";
 import { AreaTag } from "./area-tag";
 import { TaskForm } from "./task-form";
 
@@ -35,7 +36,7 @@ export function AgendaItemRow({ item, areas, today, overdueLabel }: Props) {
   );
 
   const meta = (
-    <span className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted">
+    <span className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[13px] text-muted">
       {overdue && <span className="text-warning">{overdueLabel}</span>}
       {item.time && (
         <span className="inline-flex items-center gap-1">
@@ -55,15 +56,20 @@ export function AgendaItemRow({ item, areas, today, overdueLabel }: Props) {
 
   const body = (
     <>
-      <span className={`block text-[15px] leading-snug ${done ? "text-muted line-through" : ""}`}>{item.title}</span>
+      <span className={`block text-[17px] leading-snug ${done ? "text-muted" : ""}`}>{item.title}</span>
       {meta}
     </>
   );
 
   return (
-    <li className="flex items-start gap-3 rounded-2xl bg-surface px-4 py-3">
+    <li className="flex items-start gap-3 px-4 py-3">
       <div className="pt-0.5">
-        <CheckCircle done={done} onToggle={toggle} label={`Mark "${item.title}" as done`} color={item.area?.color} />
+        <CheckCircle
+          done={done}
+          onToggle={toggle}
+          label={`Mark "${item.title}" as done`}
+          color={item.area ? cssColor(item.area.color) : undefined}
+        />
       </div>
 
       {item.kind === "task" ? (
@@ -81,7 +87,7 @@ export function AgendaItemRow({ item, areas, today, overdueLabel }: Props) {
           type="button"
           disabled={moving}
           onClick={() => startMove(() => moveTaskToDayAction(item.id, today))}
-          className="shrink-0 rounded-lg bg-surface-2 px-2.5 py-1.5 text-xs font-medium text-text"
+          className="shrink-0 self-center rounded-full bg-accent-soft px-3 py-1 text-[13px] font-semibold text-accent"
         >
           Move to today
         </button>

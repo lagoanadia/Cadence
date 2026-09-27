@@ -6,7 +6,7 @@ type Props = {
 };
 
 const buttonClass =
-  "flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-border bg-surface text-sm font-medium hover:bg-surface-2";
+  "flex h-[50px] w-full items-center justify-center gap-3 rounded-xl bg-surface text-[17px] font-semibold active:bg-surface-2";
 
 /**
  * Server Component: no JavaScript is sent to the browser for these buttons.
@@ -34,7 +34,7 @@ export function OAuthButtons({ google, github }: Props) {
           </button>
         </form>
       )}
-      <div className="my-2 flex items-center gap-3 text-xs text-muted">
+      <div className="my-2 flex items-center gap-3 text-[13px] text-muted">
         <span className="h-px flex-1 bg-border" />
         or with email
         <span className="h-px flex-1 bg-border" />

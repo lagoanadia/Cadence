@@ -19,10 +19,10 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
 
   return (
     <div className="flex flex-col gap-4">
-      {errorMessage && <p className="rounded-xl bg-danger/10 px-3 py-2 text-sm text-danger">{errorMessage}</p>}
+      {errorMessage && <p className="rounded-[10px] bg-danger/10 px-3.5 py-2.5 text-[15px] text-danger">{errorMessage}</p>}
       <OAuthButtons google={oauthProviders.google} github={oauthProviders.github} />
       <AuthForm mode="login" />
-      <p className="rounded-xl bg-surface-2 px-3 py-2 text-center text-xs text-muted">
+      <p className="ios-list px-3.5 py-2.5 text-center text-[13px] text-muted">
         Demo account: <span className="font-medium text-text">demo@cadence.app</span> /{" "}
         <span className="font-medium text-text">demo1234</span>
       </p>

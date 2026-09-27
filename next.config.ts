@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      // Receipt photos are compressed in the browser first, but leave some room
+      bodySizeLimit: "4mb",
+    },
+  },
   async headers() {
     return [
       {

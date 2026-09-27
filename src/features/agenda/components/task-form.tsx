@@ -15,10 +15,12 @@ type Props = {
   areas: AreaSummary[];
   defaultDate: DayKey;
   task?: AgendaTask; // present when editing
+  /** Pre-selects an area for new tasks (e.g. from the areas dashboard) */
+  defaultAreaId?: string;
   onDone: () => void;
 };
 
-export function TaskForm({ areas, defaultDate, task, onDone }: Props) {
+export function TaskForm({ areas, defaultDate, task, defaultAreaId, onDone }: Props) {
   const { state, pending, onSubmit, errors } = useActionForm(saveTaskAction, onDone);
   const [deleting, startDelete] = useTransition();
 
@@ -39,7 +41,7 @@ export function TaskForm({ areas, defaultDate, task, onDone }: Props) {
         </Field>
       </div>
 
-      <AreaSelect areas={areas} defaultValue={task?.area?.id} errors={errors.areaId} />
+      <AreaSelect areas={areas} defaultValue={task ? task.area?.id : defaultAreaId} errors={errors.areaId} />
 
       <Field label="Notes (optional)" htmlFor="notes" errors={errors.notes}>
         <Textarea id="notes" name="notes" defaultValue={task?.notes ?? ""} rows={2} />

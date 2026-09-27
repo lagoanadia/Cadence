@@ -39,8 +39,8 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
   return (
     <div className="flex flex-col gap-3">
       <fieldset className="flex flex-col gap-1.5">
-        <legend className="mb-1.5 text-sm font-medium">How often?</legend>
-        <div className="grid grid-cols-3 gap-2">
+        <legend className="mb-1.5 px-1 text-[13px] font-medium text-muted uppercase tracking-wide">How often?</legend>
+        <div className="grid grid-cols-3 rounded-[9px] bg-surface-2 p-0.5">
           {FREQUENCIES.map((option) => (
             <label key={option.value} className="cursor-pointer">
               <input
@@ -51,7 +51,7 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
                 onChange={() => setSelected(option.value)}
                 className="peer sr-only"
               />
-              <span className="flex h-10 items-center justify-center rounded-xl bg-surface-2 text-xs font-medium text-muted peer-checked:bg-accent peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
+              <span className="flex h-8 items-center justify-center rounded-[7px] text-[13px] font-semibold text-text/80 peer-checked:bg-surface peer-checked:text-text peer-checked:shadow-[0_3px_8px_rgba(0,0,0,0.12)] peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
                 {option.label}
               </span>
             </label>
@@ -61,7 +61,7 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
 
       {selected === "WEEKLY" && (
         <fieldset className="flex flex-col gap-1.5">
-          <legend className="mb-1.5 text-sm font-medium">On which days?</legend>
+          <legend className="mb-1.5 px-1 text-[13px] font-medium text-muted uppercase tracking-wide">On which days?</legend>
           <div className="flex justify-between gap-1">
             {WEEKDAYS.map((day) => (
               <label key={day.value} className="cursor-pointer">
@@ -72,14 +72,14 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
                   defaultChecked={daysOfWeek.includes(day.value)}
                   className="peer sr-only"
                 />
-                <span className="flex size-10 items-center justify-center rounded-full bg-surface-2 text-sm font-medium text-muted peer-checked:bg-accent peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
+                <span className="flex size-10 items-center justify-center rounded-full bg-surface text-[15px] font-semibold text-muted peer-checked:bg-accent peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
                   {day.label}
                 </span>
               </label>
             ))}
           </div>
           {errors.daysOfWeek?.map((error) => (
-            <p key={error} className="text-xs text-danger">
+            <p key={error} className="px-1 text-[13px] text-danger">
               {error}
             </p>
           ))}
