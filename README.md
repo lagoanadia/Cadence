@@ -1,20 +1,23 @@
 # Cadence
 
 A calm, mobile-first personal growth app for people with many interests: agenda, routines,
-habits, home chores, reading, movement and quick expenses — in one place.
+home chores, reading, movement and quick expenses — in one place, with an iOS-style design.
 
-**Stack:** Next.js 16 (App Router) · TypeScript · Prisma 7 + PostgreSQL · Auth.js v5 · Tailwind CSS 4 · PWA
+**Stack:** Next.js 16 (App Router) · TypeScript · Prisma 7 + PostgreSQL · Auth.js v5 · Tailwind CSS 4 · Vercel Blob · PWA
 
-## Status
+## Modules
 
-| Phase | Module                         | Status  |
-| ----- | ------------------------------ | ------- |
-| 1     | Auth + Agenda                  | ✅ Done |
-| 2     | Expenses                       | ⏳      |
-| 3     | Chores                         | ⏳      |
-| 4     | Growth areas dashboard         | ⏳      |
-| 5     | Reading                        | ⏳      |
-| 6     | Health & Movement              | ⏳      |
+| Module              | What it does                                                                  |
+| ------------------- | ----------------------------------------------------------------------------- |
+| Agenda              | Today view, day/week/month views, one-off & recurring tasks, routines         |
+| Money               | 5-second expense logging, receipt photos, categories, monthly budget          |
+| Home                | Chores with ideal frequency, one-tap "did it", gentle overdue highlight       |
+| Growth areas        | Which areas got attention this week — encouraging, never guilt-inducing       |
+| Reading             | Books by status, progress, "pages read today", streak                         |
+| Health & Movement   | Workouts and your own metrics (steps, sleep…) with a 30-day chart             |
+| Everywhere          | Floating "+" quick add, private mode for screen sharing, installable PWA      |
+
+📘 **Want to understand the code?** Read [`docs/GUIDE.md`](docs/GUIDE.md) — a phase-by-phase walkthrough.
 
 ## Getting started
 
@@ -26,8 +29,7 @@ npm install
 docker compose up -d
 
 # 3. Environment variables
-cp .env.example .env
-npx auth secret          # writes AUTH_SECRET into .env.local — or paste any random 32+ char string
+cp .env.example .env     # then put a long random string in AUTH_SECRET (openssl rand -base64 32)
 
 # 4. Create the tables and the demo account
 npm run db:migrate
@@ -41,16 +43,27 @@ Demo account: **demo@cadence.app / demo1234**
 
 ## Scripts
 
-| Script              | What it does                                   |
-| ------------------- | ---------------------------------------------- |
-| `npm run dev`       | Development server                             |
-| `npm run build`     | Production build                               |
-| `npm test`          | Unit tests (Vitest) for dates and recurrence   |
-| `npm run typecheck` | TypeScript check                               |
-| `npm run lint`      | ESLint                                         |
-| `npm run db:migrate`| Apply schema changes to the database           |
-| `npm run db:seed`   | (Re)create the demo account                    |
-| `npm run db:studio` | Browse the database in the browser             |
+| Script               | What it does                                     |
+| -------------------- | ------------------------------------------------ |
+| `npm run dev`        | Development server                               |
+| `npm run build`      | Production build                                 |
+| `npm test`           | Unit tests (Vitest)                              |
+| `npm run typecheck`  | TypeScript check                                 |
+| `npm run lint`       | ESLint                                           |
+| `npm run db:migrate` | Create/apply migrations in development           |
+| `npm run db:deploy`  | Apply existing migrations (production)           |
+| `npm run db:seed`    | (Re)create the demo account                      |
+| `npm run db:studio`  | Browse the database in the browser               |
+
+## Receipt photos (Vercel Blob)
+
+Photos are stored as **private** blobs and served through `/api/receipts/[id]`, which checks
+that the expense belongs to the logged-in user.
+
+- **On Vercel:** Project → Storage → Create → Blob, connect it to the project. Vercel adds
+  `BLOB_READ_WRITE_TOKEN` for you.
+- **Locally:** copy that token into `.env` to use the real store, or leave it empty: in
+  development photos are then saved to `./.uploads` (git-ignored).
 
 ## Sign in with Google / GitHub (optional)
 
@@ -67,13 +80,20 @@ The buttons only appear when both keys of a provider are set in `.env`.
 
 When you deploy, add the same callback URLs with your real domain.
 
+## Deploying to Vercel
+
+1. Create a Postgres database (e.g. Vercel Marketplace → Neon or Prisma Postgres) and set `DATABASE_URL`.
+2. Set `AUTH_SECRET` (and the OAuth keys if you use them). Connect a Blob store (see above).
+3. Deploy. Then run `npm run db:deploy` once against the production database (and `npm run db:seed` if you want the demo account there).
+
 ## Project structure
 
 ```
 prisma/            schema, migrations, demo seed
-src/app/           routes only: (auth) = login/register, (app) = private pages
-src/features/      one folder per module: queries (read), actions (write), schemas (validation), components
-src/components/    shared UI (buttons, sheet, fields, icons, layout)
-src/lib/           db client, auth, sessions, dates, form helpers
+src/app/           routes only: (auth) = login/register, (app) = private pages, api/ = route handlers
+src/features/      one folder per module: queries (read), actions (write), schemas, components
+src/components/    shared UI (iOS-style list, sheet, switch, segmented control, icons…)
+src/lib/           db client, auth, sessions, dates, money, storage, palette
 public/sw.js       service worker (installable PWA + offline page)
+docs/GUIDE.md      learning guide
 ```
