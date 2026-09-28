@@ -12,6 +12,8 @@ export type Book = {
   currentPage: number;
   totalPages: number | null;
   finishedAt: DayKey | null;
+  rating: number | null;
+  review: string | null;
   areaId: string | null;
 };
 
@@ -34,6 +36,8 @@ export async function listBooks(userId: string): Promise<Book[]> {
     currentPage: row.currentPage,
     totalPages: row.totalPages,
     finishedAt: row.finishedAt ? dateToDayKey(row.finishedAt) : null,
+    rating: row.rating,
+    review: row.review,
     areaId: row.areaId,
   }));
 }

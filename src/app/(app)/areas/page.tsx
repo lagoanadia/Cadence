@@ -48,7 +48,6 @@ export default async function AreasPage({ searchParams }: PageProps<"/areas">) {
     <div className="flex flex-col gap-7">
       <PageHeader
         title="Areas"
-        back={{ href: "/more", label: "More" }}
         actions={
           <>
             <Link href={`/areas?week=${addDays(start, -7)}`} aria-label="Previous week" className="p-1.5 text-accent">

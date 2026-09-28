@@ -3,7 +3,7 @@ import { AgendaItemRow } from "@/features/agenda/components/agenda-item-row";
 import { DayAgenda } from "@/features/agenda/components/day-agenda";
 import { getAgendaContext } from "@/features/agenda/context";
 import { getAgenda, getOverdueTasks } from "@/features/agenda/queries";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Settings } from "lucide-react";
 import Link from "next/link";
 import { getAreaActivity } from "@/features/areas/queries";
 import { addDays, formatDay, relativeDayLabel, startOfWeek } from "@/lib/dates";
@@ -31,7 +31,12 @@ export default async function TodayPage() {
 
   return (
     <div className="flex flex-col gap-7">
-      <header className="pt-9">
+      <header>
+        <div className="flex min-h-9 justify-end">
+          <Link href="/settings" aria-label="Settings" className="p-1.5 text-accent active:opacity-60">
+            <Settings className="size-[22px]" />
+          </Link>
+        </div>
         <p className="text-[13px] font-semibold text-muted uppercase tracking-wide">
           {formatDay(today, { weekday: "long", day: "numeric", month: "long" })}
         </p>

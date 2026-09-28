@@ -252,6 +252,8 @@ async function seedReading(day: (offset: number) => Date, areaId: string) {
         currentPage: 303,
         totalPages: 303,
         finishedAt: day(-20),
+        rating: 5,
+        review: "Quiet and heartbreaking. Klara's hope stayed with me for days.",
       },
     ].map((book) => ({ ...book, userId: DEMO_ID, areaId })),
   });

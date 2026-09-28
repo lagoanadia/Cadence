@@ -13,7 +13,7 @@ home chores, reading, movement and quick expenses — in one place, with an iOS-
 | Money               | 5-second expense logging, receipt photos, categories, monthly budget          |
 | Home                | Chores with ideal frequency, one-tap "did it", gentle overdue highlight       |
 | Growth areas        | Which areas got attention this week — encouraging, never guilt-inducing       |
-| Reading             | Books by status, progress, "pages read today", streak                         |
+| Reading             | Books by status, progress, "pages read today", streak, star ratings & reviews |
 | Health & Movement   | Workouts and your own metrics (steps, sleep…) with a 30-day chart             |
 | Everywhere          | Floating "+" quick add, private mode for screen sharing, installable PWA      |
 

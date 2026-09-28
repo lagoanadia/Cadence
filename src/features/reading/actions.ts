@@ -20,6 +20,8 @@ const bookSchema = z
     status: z.enum(["WANT_TO_READ", "READING", "FINISHED"]),
     totalPages: z.coerce.number().int().min(1).max(20_000).optional(),
     currentPage: z.coerce.number().int().min(0).max(20_000).optional(),
+    rating: z.coerce.number().int().min(1).max(5).optional(),
+    review: z.string().max(2000, "Keep it under 2000 characters").optional(),
   })
   .refine((book) => !book.totalPages || !book.currentPage || book.currentPage <= book.totalPages, {
     path: ["currentPage"],
@@ -35,6 +37,8 @@ export async function saveBookAction(_prev: FormState, formData: FormData): Prom
     status: formValue(formData, "status") ?? "WANT_TO_READ",
     totalPages: formValue(formData, "totalPages"),
     currentPage: formValue(formData, "currentPage"),
+    rating: formValue(formData, "rating"),
+    review: formValue(formData, "review"),
   });
   if (!parsed.success) return validationError(parsed.error);
 
@@ -54,6 +58,8 @@ export async function saveBookAction(_prev: FormState, formData: FormData): Prom
     status: input.status,
     totalPages,
     currentPage,
+    rating: input.rating ?? null,
+    review: input.review ?? null,
     // Keep the original dates if they exist; set them the first time a status is reached
     startedAt: input.status === "WANT_TO_READ" ? null : (existing?.startedAt ?? now),
     finishedAt: input.status === "FINISHED" ? (existing?.finishedAt ?? now) : null,

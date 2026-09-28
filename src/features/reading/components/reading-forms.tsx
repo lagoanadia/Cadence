@@ -3,7 +3,8 @@
 import { Trash2 } from "lucide-react";
 import { useRef, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Field, FormMessage, Input, Select } from "@/components/ui/field";
+import { Field, FormMessage, Input, Select, Textarea } from "@/components/ui/field";
+import { StarPicker } from "@/components/ui/stars";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { deleteBookAction, logPagesAction, saveBookAction } from "@/features/reading/actions";
 import type { Book } from "@/features/reading/queries";
@@ -57,6 +58,24 @@ export function BookForm({ book, onDone }: BookFormProps) {
           />
         </Field>
       </div>
+      <fieldset className="flex flex-col gap-2">
+        <legend className="mb-2 px-1 text-[13px] font-medium tracking-wide text-muted uppercase">
+          Your rating & review (optional)
+        </legend>
+        <StarPicker name="rating" defaultValue={book?.rating ?? null} />
+        <Textarea
+          name="review"
+          aria-label="Review"
+          rows={4}
+          defaultValue={book?.review ?? ""}
+          placeholder="What did you think? What will you remember?"
+        />
+        {[...(errors.rating ?? []), ...(errors.review ?? [])].map((error) => (
+          <p key={error} className="px-1 text-[13px] text-danger">
+            {error}
+          </p>
+        ))}
+      </fieldset>
       <FormMessage status={state.status} message={state.status === "error" ? state.message : undefined} />
       <div className="flex gap-3">
         {book && (

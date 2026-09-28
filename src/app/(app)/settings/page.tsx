@@ -16,7 +16,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-7">
-      <PageHeader title="Settings" back={{ href: "/more", label: "More" }} />
+      <PageHeader title="Settings" back={{ href: "/today", label: "Today" }} />
 
       <section className="ios-list flex items-center gap-3 p-4">
         <span className="flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-[var(--c-blue)] to-[var(--c-violet)] text-[22px] font-semibold text-white">

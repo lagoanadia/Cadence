@@ -133,6 +133,11 @@ We edited the SQL to `RENAME COLUMN`. Always read generated migrations before ap
 - `readingStreak` (pure) keeps yesterday's streak alive if you haven't read *yet* today — a small kindness.
 - Zod `.refine()` checks rules that involve two fields ("current page ≤ total pages").
 
+### Ratings and reviews
+A **purely additive migration** (`ADD COLUMN rating INTEGER, review TEXT`, both optional) — safe for
+existing data, so it ran automatically on the next Vercel deploy. `StarPicker` keeps its value in a
+hidden `<input>`, so it works with a normal form submission.
+
 ### Try it
 1. Add a yearly goal ("12 books in 2026") with a progress bar.
 2. Show pages per day for the last 7 days as a small bar chart.

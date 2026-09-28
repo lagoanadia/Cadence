@@ -1,18 +1,21 @@
 "use client";
 
-import { CalendarDays, Ellipsis, House, type LucideIcon, Sun, Wallet } from "lucide-react";
+import { BookOpen, CalendarDays, Dumbbell, House, LayoutDashboard, type LucideIcon, Sun, Wallet } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type NavItem = { href: string; label: string; icon: LucideIcon; also?: string[] };
 
+// Every module has its own tab. Seven is more than iOS usually shows, so the
+// labels are short and the icons a bit smaller to fit a phone screen.
 const ITEMS: NavItem[] = [
-  { href: "/today", label: "Today", icon: Sun },
+  { href: "/today", label: "Today", icon: Sun, also: ["/settings"] },
   { href: "/agenda", label: "Agenda", icon: CalendarDays },
   { href: "/expenses", label: "Money", icon: Wallet },
   { href: "/home", label: "Home", icon: House },
-  // "More" stays highlighted on the pages it links to
-  { href: "/more", label: "More", icon: Ellipsis, also: ["/areas", "/reading", "/health", "/settings"] },
+  { href: "/areas", label: "Areas", icon: LayoutDashboard },
+  { href: "/reading", label: "Books", icon: BookOpen },
+  { href: "/health", label: "Move", icon: Dumbbell },
 ];
 
 /** iOS tab bar: translucent, blurred, hairline on top. */
@@ -30,7 +33,7 @@ export function BottomNav() {
         {ITEMS.map(({ href, label, icon: IconComponent, also = [] }) => {
           const active = isActive(href) || also.some(isActive);
           return (
-            <li key={href} className="flex-1">
+            <li key={href} className="min-w-0 flex-1">
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
@@ -38,8 +41,8 @@ export function BottomNav() {
                   active ? "text-accent" : "text-muted"
                 }`}
               >
-                <IconComponent className="size-[26px]" strokeWidth={active ? 2.2 : 1.8} />
-                {label}
+                <IconComponent className="size-6" strokeWidth={active ? 2.2 : 1.8} />
+                <span className="max-w-full truncate">{label}</span>
               </Link>
             </li>
           );

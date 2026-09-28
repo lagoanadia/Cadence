@@ -19,7 +19,7 @@ export default async function ReadingPage() {
 
   return (
     <div className="flex flex-col gap-7">
-      <PageHeader title="Reading" back={{ href: "/more", label: "More" }} />
+      <PageHeader title="Reading" />
       <StatTiles
         tiles={[
           { label: "Today", value: String(stats.pagesToday), unit: "pages" },

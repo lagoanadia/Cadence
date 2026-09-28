@@ -4,6 +4,7 @@ import { BookOpen, ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet } from "@/components/ui/sheet";
+import { Stars } from "@/components/ui/stars";
 import type { Book } from "@/features/reading/queries";
 import { BookForm, LogPagesForm } from "./reading-forms";
 
@@ -46,6 +47,14 @@ export function ReadingView({ books, finishedLabels }: Props) {
                         ? `Page ${book.currentPage} of ${book.totalPages} · ${percent}%`
                         : `Page ${book.currentPage}`}
                     </span>
+                    {book.rating !== null && (
+                      <span className="mt-1 block">
+                        <Stars rating={book.rating} />
+                      </span>
+                    )}
+                    {book.review && (
+                      <span className="mt-1 line-clamp-2 block text-[13px] text-text/80 italic">“{book.review}”</span>
+                    )}
                   </span>
                 </button>
                 {percent !== null && (
@@ -124,6 +133,14 @@ function BookList({ title, books, detail, onOpen }: BookListProps) {
                 <span className="block truncate text-[13px] text-muted">
                   {[book.author, detail?.(book)].filter(Boolean).join(" · ")}
                 </span>
+                {book.rating !== null && (
+                  <span className="mt-0.5 block">
+                    <Stars rating={book.rating} />
+                  </span>
+                )}
+                {book.review && (
+                  <span className="mt-0.5 line-clamp-2 block text-[13px] text-text/80 italic">“{book.review}”</span>
+                )}
               </span>
               <ChevronRight className="size-4 text-muted" />
             </button>

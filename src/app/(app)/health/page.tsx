@@ -32,7 +32,7 @@ export default async function HealthPage() {
 
   return (
     <div className="flex flex-col gap-7">
-      <PageHeader title="Movement" back={{ href: "/more", label: "More" }} />
+      <PageHeader title="Movement" />
 
       <section className="flex flex-col gap-3">
         <StatTiles
