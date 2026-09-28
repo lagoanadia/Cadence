@@ -82,9 +82,16 @@ When you deploy, add the same callback URLs with your real domain.
 
 ## Deploying to Vercel
 
-1. Create a Postgres database (e.g. Vercel Marketplace → Neon or Prisma Postgres) and set `DATABASE_URL`.
-2. Set `AUTH_SECRET` (and the OAuth keys if you use them). Connect a Blob store (see above).
-3. Deploy. Then run `npm run db:deploy` once against the production database (and `npm run db:seed` if you want the demo account there).
+Vercel runs the `vercel-build` script, which **applies database migrations automatically**
+(`prisma migrate deploy`) before building. Environment variables:
+
+| Variable                | Value                                                            |
+| ----------------------- | ---------------------------------------------------------------- |
+| `DATABASE_URL`          | Postgres connection string (e.g. Prisma Postgres or Neon)        |
+| `AUTH_SECRET`           | Long random string                                               |
+| `BLOB_READ_WRITE_TOKEN` | Added automatically when you connect a Blob store to the project |
+| `SEED_DEMO`             | `true` to (re)create the demo account on every deploy            |
+| `AUTH_GOOGLE_*` / `AUTH_GITHUB_*` | Optional OAuth keys                                    |
 
 ## Project structure
 
