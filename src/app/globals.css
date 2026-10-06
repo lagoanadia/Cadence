@@ -2,91 +2,90 @@
 
 /* ─────────────────────────────────────────────────────────────────────────
    "Liquid glass" design tokens.
-   Surfaces are TRANSLUCENT white (rgba) and the page has a rich gradient
-   background: the blur (backdrop-filter) on each surface is what makes it look
-   like frosted glass. Colors are named by ROLE (surface, muted…), so dark mode
-   only swaps values.
+   Surfaces are TRANSLUCENT white (rgba) and the page has a mostly-NEUTRAL
+   background with just a faint green glow — color is deliberately scarce, so
+   the one accent that exists (green) actually stands out. Colors are named
+   by ROLE (surface, muted…), so dark mode only swaps values.
 
-   Yellow accent has two roles:
-   - accent-fill: the yellow used for fills (buttons, selected chips), with dark
-     text on top (accent-text).
-   - accent: the "ink" for text and icons. On a light background pure yellow
-     text is unreadable, so light mode uses a deep amber instead.
+   Green accent has two roles:
+   - accent-fill: the green used for fills (buttons, selected chips), with
+     dark text on top (accent-text) — green is too bright for white text to
+     sit on reliably.
+   - accent: the "ink" for text and icons.
    ───────────────────────────────────────────────────────────────────────── */
 :root {
-  --bg: #efe9dc;
+  --bg: #f4f4f2;
   --bg-image:
-    radial-gradient(60% 45% at 85% 5%, rgba(255, 214, 10, 0.45), transparent 70%),
-    radial-gradient(55% 40% at 0% 35%, rgba(255, 170, 120, 0.35), transparent 70%),
-    radial-gradient(70% 50% at 60% 100%, rgba(140, 190, 210, 0.35), transparent 70%),
-    linear-gradient(180deg, #f6f1e6 0%, #e8e2d4 100%);
-  --surface: rgba(255, 255, 255, 0.42);
-  --surface-2: rgba(255, 255, 255, 0.55);
-  --sheet: rgba(250, 248, 242, 0.72);
-  --border: rgba(255, 255, 255, 0.7);
-  --separator: rgba(60, 60, 67, 0.14);
+    radial-gradient(50% 38% at 88% -6%, rgba(52, 199, 89, 0.14), transparent 70%),
+    radial-gradient(55% 42% at 6% 102%, rgba(52, 199, 89, 0.08), transparent 70%),
+    linear-gradient(180deg, #f8f8f6 0%, #eef0ec 100%);
+  --surface: rgba(255, 255, 255, 0.26);
+  --surface-2: rgba(255, 255, 255, 0.38);
+  --sheet: rgba(250, 250, 248, 0.55);
+  --border: rgba(255, 255, 255, 0.65);
+  --separator: rgba(60, 60, 67, 0.13);
   --highlight: rgba(255, 255, 255, 0.85);
-  --sheen: rgba(255, 255, 255, 0.35);
-  --shadow: 0 10px 30px rgba(60, 50, 20, 0.12);
+  --sheen: rgba(255, 255, 255, 0.32);
+  --shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
   --text: #1c1c1e;
-  --muted: rgba(60, 60, 67, 0.68);
-  --accent: #8a6500;
-  --accent-fill: #ffd60a;
-  --accent-soft: rgba(255, 214, 10, 0.28);
-  --accent-text: #1c1a10;
+  --muted: rgba(60, 60, 67, 0.65);
+  --accent: #248a3d;
+  --accent-fill: #34c759;
+  --accent-soft: rgba(52, 199, 89, 0.18);
+  --accent-text: #062a11;
   --danger: #c4161c;
   --warning: #a8530a;
   --warning-soft: rgba(255, 179, 64, 0.22);
   --success: #1e7d3a;
 
-  /* Monochrome amber ramp (areas, categories, charts) — see src/lib/palette.ts.
-     Variable names are historical (they used to be different hues); only the
-     values changed, so nothing that reads --c-blue etc. needed to move. */
-  --c-blue: #c17800;
-  --c-orange: #f2b705;
-  --c-aqua: #d98f1f;
-  --c-yellow: #eda100;
-  --c-magenta: #a8651a;
-  --c-green: #8f5d00;
-  --c-violet: #6b4a00;
-  --c-red: #4a2e00;
+  /* Monochrome green ramp (areas, categories, charts) — see src/lib/palette.ts.
+     Variable names are historical (they used to be different hues, then
+     amber); only the values changed, so nothing that reads --c-blue etc.
+     needed to move. */
+  --c-blue: #3dae63;
+  --c-orange: #4cc274;
+  --c-aqua: #35a05c;
+  --c-yellow: #248a3d;
+  --c-magenta: #1f7a38;
+  --c-green: #1a6b30;
+  --c-violet: #155c29;
+  --c-red: #0f4a20;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #060912;
+    --bg: #090a09;
     --bg-image:
-      radial-gradient(60% 40% at 15% 0%, rgba(40, 130, 150, 0.55), transparent 70%),
-      radial-gradient(55% 45% at 95% 25%, rgba(80, 70, 170, 0.45), transparent 70%),
-      radial-gradient(70% 45% at 50% 105%, rgba(255, 200, 60, 0.22), transparent 70%),
-      linear-gradient(180deg, #070b15 0%, #0b1322 55%, #0a0f1a 100%);
-    --surface: rgba(255, 255, 255, 0.075);
-    --surface-2: rgba(255, 255, 255, 0.13);
-    --sheet: rgba(18, 22, 34, 0.62);
-    --border: rgba(255, 255, 255, 0.16);
-    --separator: rgba(255, 255, 255, 0.1);
-    --highlight: rgba(255, 255, 255, 0.28);
-    --sheen: rgba(255, 255, 255, 0.07);
-    --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      radial-gradient(50% 38% at 88% -6%, rgba(52, 199, 89, 0.18), transparent 70%),
+      radial-gradient(55% 42% at 6% 102%, rgba(30, 120, 60, 0.2), transparent 70%),
+      linear-gradient(180deg, #0a0c0a 0%, #0d100d 55%, #0a0b09 100%);
+    --surface: rgba(255, 255, 255, 0.06);
+    --surface-2: rgba(255, 255, 255, 0.11);
+    --sheet: rgba(14, 16, 14, 0.65);
+    --border: rgba(255, 255, 255, 0.14);
+    --separator: rgba(255, 255, 255, 0.09);
+    --highlight: rgba(255, 255, 255, 0.24);
+    --sheen: rgba(255, 255, 255, 0.06);
+    --shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
     --text: #f5f5f7;
     --muted: rgba(235, 235, 245, 0.62);
-    --accent: #ffd60a;
-    --accent-fill: #ffd60a;
-    --accent-soft: rgba(255, 214, 10, 0.16);
-    --accent-text: #1c1a10;
+    --accent: #34c759;
+    --accent-fill: #34c759;
+    --accent-soft: rgba(52, 199, 89, 0.16);
+    --accent-text: #062a11;
     --danger: #ff6961;
     --warning: #ffb340;
     --warning-soft: rgba(255, 179, 64, 0.16);
     --success: #30d158;
 
-    --c-blue: #e0a106;
-    --c-orange: #ffcf33;
-    --c-aqua: #f4b400;
-    --c-yellow: #ffd60a;
-    --c-magenta: #c98500;
-    --c-green: #ad7200;
-    --c-violet: #8f5e00;
-    --c-red: #6b4700;
+    --c-blue: #4ed17a;
+    --c-orange: #5ee88c;
+    --c-aqua: #3dd671;
+    --c-yellow: #34c759;
+    --c-magenta: #2bb34c;
+    --c-green: #239c42;
+    --c-violet: #1c8538;
+    --c-red: #156e2e;
   }
 }
 
@@ -133,12 +132,13 @@ body {
    3. a light border and an inner top highlight that make the edge look curved */
 @utility glass {
   background-color: var(--surface);
-  background-image: linear-gradient(180deg, var(--sheen), transparent 55%);
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-  backdrop-filter: blur(24px) saturate(170%);
+  background-image: linear-gradient(165deg, var(--sheen), transparent 60%);
+  -webkit-backdrop-filter: blur(34px) saturate(200%);
+  backdrop-filter: blur(34px) saturate(200%);
   border: 1px solid var(--border);
   box-shadow:
     inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
     var(--shadow);
 }
 
@@ -147,12 +147,13 @@ body {
   border-radius: 24px;
   overflow: hidden;
   background-color: var(--surface);
-  background-image: linear-gradient(180deg, var(--sheen), transparent 55%);
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-  backdrop-filter: blur(24px) saturate(170%);
+  background-image: linear-gradient(165deg, var(--sheen), transparent 60%);
+  -webkit-backdrop-filter: blur(34px) saturate(200%);
+  backdrop-filter: blur(34px) saturate(200%);
   border: 1px solid var(--border);
   box-shadow:
     inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
     var(--shadow);
 }
 
