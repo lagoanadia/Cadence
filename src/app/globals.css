@@ -1,25 +1,43 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Design tokens, modelled on Apple's iOS "system colors".
-   We name colors by ROLE (surface, muted…) instead of by value, so dark mode
-   only has to swap the values. Text colors use Apple's *accessible* variants
-   where the default ones are too light to read on white.
+   "Liquid glass" design tokens.
+   Surfaces are TRANSLUCENT white (rgba) and the page has a rich gradient
+   background: the blur (backdrop-filter) on each surface is what makes it look
+   like frosted glass. Colors are named by ROLE (surface, muted…), so dark mode
+   only swaps values.
+
+   Yellow accent has two roles:
+   - accent-fill: the yellow used for fills (buttons, selected chips), with dark
+     text on top (accent-text).
+   - accent: the "ink" for text and icons. On a light background pure yellow
+     text is unreadable, so light mode uses a deep amber instead.
    ───────────────────────────────────────────────────────────────────────── */
 :root {
-  --bg: #f2f2f7; /* systemGroupedBackground */
-  --surface: #ffffff; /* secondarySystemGroupedBackground */
-  --surface-2: #e9e9ee; /* tertiary fill */
-  --border: #d1d1d6; /* separator */
-  --text: #000000;
-  --muted: #6c6c70; /* secondaryLabel, darkened for contrast */
-  --accent: #007aff; /* systemBlue */
-  --accent-soft: #e5f1ff;
-  --accent-text: #ffffff;
-  --danger: #d70015;
-  --warning: #c93400;
-  --warning-soft: #fff3e3;
-  --success: #248a3d;
+  --bg: #efe9dc;
+  --bg-image:
+    radial-gradient(60% 45% at 85% 5%, rgba(255, 214, 10, 0.45), transparent 70%),
+    radial-gradient(55% 40% at 0% 35%, rgba(255, 170, 120, 0.35), transparent 70%),
+    radial-gradient(70% 50% at 60% 100%, rgba(140, 190, 210, 0.35), transparent 70%),
+    linear-gradient(180deg, #f6f1e6 0%, #e8e2d4 100%);
+  --surface: rgba(255, 255, 255, 0.42);
+  --surface-2: rgba(255, 255, 255, 0.55);
+  --sheet: rgba(250, 248, 242, 0.72);
+  --border: rgba(255, 255, 255, 0.7);
+  --separator: rgba(60, 60, 67, 0.14);
+  --highlight: rgba(255, 255, 255, 0.85);
+  --sheen: rgba(255, 255, 255, 0.35);
+  --shadow: 0 10px 30px rgba(60, 50, 20, 0.12);
+  --text: #1c1c1e;
+  --muted: rgba(60, 60, 67, 0.68);
+  --accent: #8a6500;
+  --accent-fill: #ffd60a;
+  --accent-soft: rgba(255, 214, 10, 0.28);
+  --accent-text: #1c1a10;
+  --danger: #c4161c;
+  --warning: #a8530a;
+  --warning-soft: rgba(255, 179, 64, 0.22);
+  --success: #1e7d3a;
 
   /* Validated categorical palette (areas, categories, charts) — see src/lib/palette.ts */
   --c-blue: #2a78d6;
@@ -34,18 +52,29 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #000000;
-    --surface: #1c1c1e;
-    --surface-2: #2c2c2e;
-    --border: #38383a;
-    --text: #ffffff;
-    --muted: #98989f;
-    --accent: #0a84ff;
-    --accent-soft: #0a2a4d;
-    --accent-text: #ffffff;
-    --danger: #ff453a;
-    --warning: #ff9f0a;
-    --warning-soft: #2e2107;
+    --bg: #060912;
+    --bg-image:
+      radial-gradient(60% 40% at 15% 0%, rgba(40, 130, 150, 0.55), transparent 70%),
+      radial-gradient(55% 45% at 95% 25%, rgba(80, 70, 170, 0.45), transparent 70%),
+      radial-gradient(70% 45% at 50% 105%, rgba(255, 200, 60, 0.22), transparent 70%),
+      linear-gradient(180deg, #070b15 0%, #0b1322 55%, #0a0f1a 100%);
+    --surface: rgba(255, 255, 255, 0.075);
+    --surface-2: rgba(255, 255, 255, 0.13);
+    --sheet: rgba(18, 22, 34, 0.62);
+    --border: rgba(255, 255, 255, 0.16);
+    --separator: rgba(255, 255, 255, 0.1);
+    --highlight: rgba(255, 255, 255, 0.28);
+    --sheen: rgba(255, 255, 255, 0.07);
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    --text: #f5f5f7;
+    --muted: rgba(235, 235, 245, 0.62);
+    --accent: #ffd60a;
+    --accent-fill: #ffd60a;
+    --accent-soft: rgba(255, 214, 10, 0.16);
+    --accent-text: #1c1a10;
+    --danger: #ff6961;
+    --warning: #ffb340;
+    --warning-soft: rgba(255, 179, 64, 0.16);
     --success: #30d158;
 
     --c-blue: #3987e5;
@@ -67,6 +96,8 @@
   --color-text: var(--text);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-separator: var(--separator);
   --color-accent-soft: var(--accent-soft);
   --color-accent-text: var(--accent-text);
   --color-danger: var(--danger);
@@ -74,6 +105,7 @@
   --color-warning-soft: var(--warning-soft);
   --color-success: var(--success);
   /* On Apple devices this is SF Pro; elsewhere Inter, which looks very similar */
+  --font-display: var(--font-serif), Georgia, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--font-inter), system-ui, sans-serif;
 }
 
@@ -84,17 +116,42 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  /* The gradient stays put while content scrolls over it — that's what makes the glass visible */
+  background-image: var(--bg-image);
+  background-attachment: fixed;
   color: var(--text);
   font-size: 17px; /* iOS body text size */
   letter-spacing: -0.01em;
 }
 
-/* ── iOS "inset grouped" list: white rounded block, hairline separators ── */
+/* ── Liquid glass ──
+   1. a translucent fill + a soft white "sheen" at the top (light hitting glass)
+   2. backdrop-filter: blurs and saturates whatever is BEHIND the element
+   3. a light border and an inner top highlight that make the edge look curved */
+@utility glass {
+  background-color: var(--surface);
+  background-image: linear-gradient(180deg, var(--sheen), transparent 55%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--shadow);
+}
+
+/* A grouped list is a big glass card; rows are separated by hairlines */
 @utility ios-list {
-  border-radius: 12px;
-  background: var(--surface);
+  border-radius: 24px;
   overflow: hidden;
+  background-color: var(--surface);
+  background-image: linear-gradient(180deg, var(--sheen), transparent 55%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--shadow);
 }
 
 /* Separator between rows, starting where the text starts (like iOS) */
@@ -111,7 +168,7 @@ body {
     height: 1px;
     transform: scaleY(0.5);
     transform-origin: top;
-    background: var(--border);
+    background: var(--separator);
   }
 }
 
@@ -129,6 +186,13 @@ body {
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+/* Elegant serif, used sparingly (the Today greeting, the assistant) */
+@utility display-serif {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 @utility tabular {

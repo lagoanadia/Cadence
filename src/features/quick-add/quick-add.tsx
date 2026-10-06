@@ -1,6 +1,17 @@
 "use client";
 
-import { BookOpen, Check, CircleCheck, Dumbbell, House, type LucideIcon, Plus, Receipt } from "lucide-react";
+import {
+  BookOpen,
+  BookPlus,
+  Check,
+  CircleCheck,
+  Dumbbell,
+  House,
+  type LucideIcon,
+  Plus,
+  Receipt,
+  Sparkles,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Icon } from "@/components/icons";
@@ -8,10 +19,11 @@ import { Sheet } from "@/components/ui/sheet";
 import { TaskForm } from "@/features/agenda/components/task-form";
 import type { AreaSummary } from "@/features/agenda/queries";
 import { markChoreDoneAction } from "@/features/chores/actions";
+import { ChoreForm } from "@/features/chores/components/chore-form";
 import { ExpenseForm } from "@/features/expenses/components/expense-form";
 import type { Category } from "@/features/expenses/queries";
 import { WorkoutForm } from "@/features/health/components/health-forms";
-import { LogPagesForm } from "@/features/reading/components/reading-forms";
+import { BookForm, LogPagesForm } from "@/features/reading/components/reading-forms";
 import type { Book } from "@/features/reading/queries";
 import { type DayKey, isDayKey } from "@/lib/dates";
 
@@ -26,23 +38,40 @@ type Props = {
   readingBooks: Book[];
 };
 
-type Mode = "task" | "expense" | "chore" | "workout" | "pages";
+type Mode = "task" | "expense" | "chore-done" | "new-chore" | "workout" | "pages" | "new-book";
 
 const OPTIONS: { mode: Mode; label: string; icon: LucideIcon; color: string }[] = [
   { mode: "expense", label: "Expense", icon: Receipt, color: "var(--c-green)" },
   { mode: "task", label: "Task", icon: CircleCheck, color: "var(--c-blue)" },
-  { mode: "chore", label: "Chore done", icon: House, color: "var(--c-yellow)" },
+  { mode: "chore-done", label: "Chore done", icon: House, color: "var(--c-yellow)" },
   { mode: "workout", label: "Workout", icon: Dumbbell, color: "var(--c-aqua)" },
   { mode: "pages", label: "Pages read", icon: BookOpen, color: "var(--c-violet)" },
+  { mode: "new-book", label: "New book", icon: BookPlus, color: "var(--c-magenta)" },
 ];
 
 const TITLES: Record<Mode, string> = {
   task: "New task",
   expense: "New expense",
-  chore: "Chore done",
+  "chore-done": "Chore done",
+  "new-chore": "New chore",
   workout: "Log workout",
   pages: "Pages read today",
+  "new-book": "New book",
 };
+
+/**
+ * The "+" adds whatever the current screen is about: on Money an expense, on
+ * Home a chore, on Books a book… Screens without an obvious "thing" (Settings)
+ * open the full menu instead.
+ */
+export function modeForPath(pathname: string): Mode | null {
+  if (pathname.startsWith("/expenses")) return "expense";
+  if (pathname.startsWith("/home")) return "new-chore";
+  if (pathname.startsWith("/reading")) return "new-book";
+  if (pathname.startsWith("/health")) return "workout";
+  if (pathname.startsWith("/today") || pathname.startsWith("/agenda") || pathname.startsWith("/areas")) return "task";
+  return null;
+}
 
 /** When you're looking at a specific day, new tasks default to that day. */
 function dateFromPath(pathname: string, fallback: DayKey): DayKey {
@@ -51,25 +80,36 @@ function dateFromPath(pathname: string, fallback: DayKey): DayKey {
   return date && isDayKey(date) && date >= fallback ? date : fallback;
 }
 
-/** The floating "+" available on every screen: pick what to log, then a focused sheet. */
+/** The floating "+": opens the form that matches the screen, with the full menu one tap away. */
 export function QuickAdd({ areas, today, categories, receiptsEnabled, chores, readingBooks }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mode, setMode] = useState<Mode | null>(null);
   const pathname = usePathname();
+  const contextual = modeForPath(pathname);
   const close = () => setMode(null);
+
+  function openPlus() {
+    if (contextual) setMode(contextual);
+    else setMenuOpen(true);
+  }
+
+  function showMenu() {
+    setMode(null);
+    setMenuOpen(true);
+  }
 
   return (
     <>
       <button
         type="button"
-        onClick={() => setMenuOpen(true)}
-        aria-label="Quick add"
-        className="fixed right-4 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-30 flex size-14 items-center justify-center rounded-full bg-accent text-accent-text shadow-[0_8px_24px_rgba(0,122,255,0.35)] transition active:scale-90 sm:right-[max(1rem,calc(50%-20rem))]"
+        onClick={openPlus}
+        aria-label={contextual ? TITLES[contextual] : "Quick add"}
+        className="fixed right-5 bottom-[calc(5.75rem+env(safe-area-inset-bottom))] z-30 flex size-14 items-center justify-center rounded-full border border-white/40 bg-accent-fill text-accent-text shadow-[0_10px_30px_rgba(255,214,10,0.45),inset_0_1px_0_rgba(255,255,255,0.7)] transition active:scale-90 sm:right-[max(1.25rem,calc(50%-19rem))]"
       >
         <Plus className="size-7" strokeWidth={2.5} />
       </button>
 
-      <Sheet open={menuOpen} onClose={() => setMenuOpen(false)} title="Quick add">
+      <Sheet open={menuOpen} onClose={() => setMenuOpen(false)} title="Add something">
         <ul className="ios-list ios-rows [--row-inset:58px]">
           {OPTIONS.map((option) => (
             <li key={option.mode}>
@@ -82,7 +122,7 @@ export function QuickAdd({ areas, today, categories, receiptsEnabled, chores, re
                 className="flex w-full items-center gap-3 px-4 py-3 text-left text-[17px] active:bg-surface-2"
               >
                 <span
-                  className="flex size-[30px] items-center justify-center rounded-[8px] text-white"
+                  className="flex size-[30px] items-center justify-center rounded-[9px] text-white"
                   style={{ backgroundColor: option.color }}
                 >
                   <option.icon className="size-[18px]" />
@@ -99,9 +139,20 @@ export function QuickAdd({ areas, today, categories, receiptsEnabled, chores, re
         {mode === "expense" && (
           <ExpenseForm categories={categories} today={today} receiptsEnabled={receiptsEnabled} onDone={close} />
         )}
-        {mode === "chore" && <ChorePicker chores={chores} onDone={close} />}
+        {mode === "chore-done" && <ChorePicker chores={chores} onDone={close} />}
+        {mode === "new-chore" && <ChoreForm areas={areas} onDone={close} />}
         {mode === "workout" && <WorkoutForm today={today} onDone={close} />}
         {mode === "pages" && <LogPagesForm books={readingBooks} onDone={close} />}
+        {mode === "new-book" && <BookForm onDone={close} />}
+
+        <button
+          type="button"
+          onClick={showMenu}
+          className="mx-auto mt-5 flex items-center gap-1.5 text-[15px] text-accent active:opacity-60"
+        >
+          <Sparkles className="size-4" />
+          Something else…
+        </button>
       </Sheet>
     </>
   );

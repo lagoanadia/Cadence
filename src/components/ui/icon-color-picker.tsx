@@ -59,7 +59,7 @@ export function IconColorPicker({ icons, defaultIcon, defaultColor, withColor = 
               />
               <span
                 aria-label={name}
-                className="flex size-11 items-center justify-center rounded-full text-muted peer-checked:bg-accent peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent"
+                className="flex size-11 items-center justify-center rounded-full text-muted peer-checked:bg-accent-fill peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent"
               >
                 <Icon name={name} className="size-5" />
               </span>

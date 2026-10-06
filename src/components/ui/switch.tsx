@@ -18,7 +18,7 @@ export function Switch({ checked, onChange, label, disabled }: Props) {
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={`relative h-[31px] w-[51px] shrink-0 rounded-full transition-colors duration-200 disabled:opacity-50 ${
-        checked ? "bg-success" : "bg-surface-2"
+        checked ? "bg-accent-fill" : "border border-border bg-surface-2"
       }`}
     >
       <span

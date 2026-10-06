@@ -17,6 +17,7 @@
     "vercel-build": "prisma generate && prisma migrate deploy && if [ \"$SEED_DEMO\" = \"true\" ]; then prisma db seed; fi && next build"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
     "@auth/prisma-adapter": "^2.11.3",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",

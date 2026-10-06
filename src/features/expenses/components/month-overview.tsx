@@ -109,7 +109,7 @@ function BudgetBar({ totalCents, budgetCents, daysLeft, hidden }: BudgetProps) {
         aria-valuenow={Math.round(Math.min(ratio, 1) * 100)}
       >
         <div
-          className={`h-full rounded-full ${over ? "bg-warning" : "bg-accent"}`}
+          className={`h-full rounded-full ${over ? "bg-warning" : "bg-accent-fill"}`}
           style={{ width: `${Math.min(ratio, 1) * 100}%` }}
         />
       </div>

@@ -40,7 +40,7 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
     <div className="flex flex-col gap-3">
       <fieldset className="flex flex-col gap-1.5">
         <legend className="mb-1.5 px-1 text-[13px] font-medium text-muted uppercase tracking-wide">How often?</legend>
-        <div className="grid grid-cols-3 rounded-[9px] bg-surface-2 p-0.5">
+        <div className="glass grid grid-cols-3 rounded-full p-1">
           {FREQUENCIES.map((option) => (
             <label key={option.value} className="cursor-pointer">
               <input
@@ -51,7 +51,7 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
                 onChange={() => setSelected(option.value)}
                 className="peer sr-only"
               />
-              <span className="flex h-8 items-center justify-center rounded-[7px] text-[13px] font-semibold text-text/80 peer-checked:bg-surface peer-checked:text-text peer-checked:shadow-[0_3px_8px_rgba(0,0,0,0.12)] peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
+              <span className="flex h-8 items-center justify-center rounded-full text-[13px] font-semibold text-text/75 peer-checked:bg-accent-fill peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
                 {option.label}
               </span>
             </label>
@@ -72,7 +72,7 @@ export function RuleFields({ frequency = "DAILY", daysOfWeek = [], dayOfMonth, e
                   defaultChecked={daysOfWeek.includes(day.value)}
                   className="peer sr-only"
                 />
-                <span className="flex size-10 items-center justify-center rounded-full bg-surface text-[15px] font-semibold text-muted peer-checked:bg-accent peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
+                <span className="flex size-10 items-center justify-center rounded-full border border-border bg-surface text-[15px] font-semibold text-muted backdrop-blur-xl peer-checked:border-transparent peer-checked:bg-accent-fill peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
                   {day.label}
                 </span>
               </label>

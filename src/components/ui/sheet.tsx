@@ -41,9 +41,10 @@ export function Sheet({ open, onClose, title, children }: Props) {
       onClick={(event) => {
         if (event.target === ref.current) onClose();
       }}
-      className="m-0 mt-auto w-full max-w-none rounded-t-[14px] bg-bg p-0 text-text backdrop:bg-black/30 open:animate-[sheet-in_0.28s_cubic-bezier(0.32,0.72,0,1)] sm:m-auto sm:max-w-md sm:rounded-[14px]"
+      // The sheet is heavy glass: you still glimpse the screen behind it
+      className="m-0 mt-auto w-full max-w-none rounded-t-[32px] border border-b-0 border-border bg-[var(--sheet)] p-0 text-text shadow-[inset_0_1px_0_var(--highlight)] backdrop-blur-[40px] backdrop-saturate-150 backdrop:bg-black/25 backdrop:backdrop-blur-[2px] open:animate-[sheet-in_0.32s_cubic-bezier(0.32,0.72,0,1)] sm:m-auto sm:max-w-md sm:rounded-[32px] sm:border-b"
     >
-      <div className="max-h-[88dvh] overflow-y-auto px-4 pt-2 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+      <div className="max-h-[88dvh] overflow-y-auto px-5 pt-2 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         <div className="mx-auto mb-2 h-[5px] w-9 rounded-full bg-muted/40 sm:hidden" />
         <div className="relative mb-5 flex items-center justify-center">
           <h2 className="text-[17px] font-semibold">{title}</h2>
@@ -51,7 +52,7 @@ export function Sheet({ open, onClose, title, children }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute right-0 flex size-[30px] items-center justify-center rounded-full bg-surface-2 text-muted"
+            className="absolute right-0 flex size-[32px] items-center justify-center rounded-full border border-border bg-surface-2 text-muted"
           >
             <X className="size-4" strokeWidth={2.5} />
           </button>

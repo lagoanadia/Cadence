@@ -43,7 +43,7 @@ export function MonthGrid({ month, days, today, weekStartsOn }: Props) {
             >
               <span
                 className={`flex size-8 items-center justify-center rounded-full tabular ${
-                  isToday ? "bg-accent font-semibold text-accent-text" : ""
+                  isToday ? "bg-accent-fill font-semibold text-accent-text" : ""
                 }`}
               >
                 {Number(day.date.slice(8))}

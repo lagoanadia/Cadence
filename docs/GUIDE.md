@@ -184,3 +184,38 @@ hidden `<input>`, so it works with a normal form submission.
 1. Write a Playwright end-to-end test for your favorite flow and add it to the repo.
 2. Deploy to Vercel (see README) and install it on your phone.
 3. Add push notifications for routines (the Next.js PWA guide in `node_modules/next/dist/docs` explains how).
+
+---
+
+## Phase 7 — Liquid glass, contextual "+" and the AI assistant
+
+### Liquid glass (`globals.css`)
+Glass needs **something behind it**: the page has a fixed gradient background (`--bg-image`,
+`background-attachment: fixed`), and surfaces are *translucent* (`rgba(255,255,255,0.08)`).
+The `glass` / `ios-list` utilities add `backdrop-filter: blur() saturate()` (blurs what's behind),
+a light border and an inner top highlight (`inset 0 1px 0`) that makes the edge look curved.
+
+Yellow has two tokens: `accent-fill` (the yellow for buttons and selections, with dark text on top)
+and `accent` (the color for text and icons: yellow in dark mode, deep amber in light mode, because yellow
+text on a light background is unreadable). Separating "fill" from "ink" is a common design-system pattern.
+
+### Contextual "+" (`quick-add.tsx`)
+`modeForPath(pathname)` maps the current URL to the form that makes sense there (Money → expense,
+Home → chore…). The full menu is still one tap away ("Something else…"). Small pure function = easy to change.
+
+### The assistant (`src/features/assistant/`)
+1. **Voice** uses the browser's own speech recognition (`webkitSpeechRecognition`): free, no audio
+   leaves the device through our server. It only fills the text box.
+2. `planAssistantAction` sends the text + your lists (areas, categories, chores, books) and today's date to
+   Claude with a **structured output**: the answer must match the Zod `planSchema` (a list of typed
+   actions). No free text to parse with regexes.
+3. **Nothing is saved yet.** You see the proposed actions, untick what you don't want, then
+   `applyAssistantAction` runs. It **re-validates** everything (the browser could send anything) and
+   `executeAction` matches names only against *your* rows, rejecting impossible values.
+4. Design choices: low effort (it's an extraction job, so it's faster), a cached system prompt
+   (cheaper), typed SDK errors handled from most specific to least, and server-side refusal fallbacks
+   (`fallbacks: "default"`).
+
+### Try it
+1. Add a new action kind, e.g. `create_book` ("quiero leer Dune"): schema → description → executor → test.
+2. Show the assistant's last plan again after a reload (hint: keep it in `localStorage`).

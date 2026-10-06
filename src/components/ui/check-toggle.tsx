@@ -37,7 +37,7 @@ type Props = {
 };
 
 /** A round checkbox like the one in Apple's Reminders app. */
-export function CheckCircle({ done, label, onToggle, color = "var(--accent)", size = "md" }: Props) {
+export function CheckCircle({ done, label, onToggle, color = "var(--accent-fill)", size = "md" }: Props) {
   const box = size === "md" ? "size-[22px]" : "size-5";
   return (
     <button

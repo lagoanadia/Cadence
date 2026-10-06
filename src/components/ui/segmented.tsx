@@ -10,14 +10,14 @@ type Props = {
 /** iOS segmented control, where each segment is a link (it changes the URL). */
 export function SegmentedLinks({ segments, label }: Props) {
   return (
-    <nav aria-label={label} className="flex rounded-[9px] bg-surface-2 p-0.5">
+    <nav aria-label={label} className="glass flex rounded-full p-1">
       {segments.map((segment) => (
         <Link
           key={segment.href}
           href={segment.href}
           aria-current={segment.active ? "page" : undefined}
-          className={`flex-1 rounded-[7px] py-1.5 text-center text-[13px] font-semibold transition ${
-            segment.active ? "bg-surface text-text shadow-[0_3px_8px_rgba(0,0,0,0.12),0_3px_1px_rgba(0,0,0,0.04)]" : "text-text/80"
+          className={`flex-1 rounded-full py-1.5 text-center text-[13px] font-semibold transition ${
+            segment.active ? "bg-accent-fill text-accent-text shadow-[0_4px_14px_rgba(255,214,10,0.35)]" : "text-text/75"
           }`}
         >
           {segment.label}

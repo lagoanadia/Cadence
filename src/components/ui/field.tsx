@@ -1,8 +1,8 @@
 import type { ComponentProps } from "react";
 
-// iOS-style fields: white rounded boxes on the grey grouped background, no borders
+// Glass fields: translucent, blurred, with a light border; yellow ring on focus
 export const inputClass =
-  "h-11 w-full rounded-[10px] bg-surface px-3.5 text-[17px] text-text placeholder:text-muted/60 outline-none focus:ring-2 focus:ring-accent/40";
+  "h-12 w-full rounded-2xl border border-border bg-surface px-4 text-[17px] text-text backdrop-blur-xl placeholder:text-muted/70 outline-none focus:border-accent-fill/60 focus:ring-2 focus:ring-accent-fill/35";
 
 type FieldProps = {
   label: string;
@@ -57,7 +57,7 @@ export function FormMessage({ status, message }: FormMessageProps) {
   if (!message || status === "idle") return null;
   const color = status === "error" ? "bg-danger/10 text-danger" : "bg-success/10 text-success";
   return (
-    <p role="status" className={`rounded-[10px] px-3.5 py-2.5 text-[15px] ${color}`}>
+    <p role="status" className={`rounded-2xl px-4 py-2.5 text-[15px] ${color}`}>
       {message}
     </p>
   );

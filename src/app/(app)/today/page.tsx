@@ -6,6 +6,8 @@ import { getAgenda, getOverdueTasks } from "@/features/agenda/queries";
 import { ChevronRight, Settings } from "lucide-react";
 import Link from "next/link";
 import { getAreaActivity } from "@/features/areas/queries";
+import { AssistantCard } from "@/features/assistant/assistant-card";
+import { assistantEnabled } from "@/features/assistant/planner";
 import { addDays, formatDay, relativeDayLabel, startOfWeek } from "@/lib/dates";
 import { cssColor } from "@/lib/palette";
 
@@ -40,8 +42,10 @@ export default async function TodayPage() {
         <p className="text-[13px] font-semibold text-muted uppercase tracking-wide">
           {formatDay(today, { weekday: "long", day: "numeric", month: "long" })}
         </p>
-        <h1 className="large-title">{greeting(settings.timezone)}</h1>
+        <h1 className="display-serif text-[44px] leading-[1.05]">{greeting(settings.timezone)}</h1>
       </header>
+
+      <AssistantCard enabled={assistantEnabled} />
 
       <Link href="/areas" className="ios-list flex items-center gap-3 px-4 py-3 active:bg-surface-2">
         <span className="min-w-0 flex-1">

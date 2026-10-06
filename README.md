@@ -1,7 +1,7 @@
 # Cadence
 
 A calm, mobile-first personal growth app for people with many interests: agenda, routines,
-home chores, reading, movement and quick expenses — in one place, with an iOS-style design.
+home chores, reading, movement and quick expenses — in one place, with a "liquid glass" design and yellow accents.
 
 **Stack:** Next.js 16 (App Router) · TypeScript · Prisma 7 + PostgreSQL · Auth.js v5 · Tailwind CSS 4 · Vercel Blob · PWA
 
@@ -15,7 +15,8 @@ home chores, reading, movement and quick expenses — in one place, with an iOS-
 | Growth areas        | Which areas got attention this week — encouraging, never guilt-inducing       |
 | Reading             | Books by status, progress, "pages read today", streak, star ratings & reviews |
 | Health & Movement   | Workouts and your own metrics (steps, sleep…) with a 30-day chart             |
-| Everywhere          | Floating "+" quick add, private mode for screen sharing, installable PWA      |
+| Assistant (Today)   | Speak or type what you need; Claude proposes tasks, expenses, budget… you confirm |
+| Everywhere          | Contextual "+" (adds what the screen is about), private mode, installable PWA |
 
 📘 **Want to understand the code?** Read [`docs/GUIDE.md`](docs/GUIDE.md) — a phase-by-phase walkthrough.
 
@@ -91,6 +92,7 @@ Vercel runs the `vercel-build` script, which **applies database migrations autom
 | `AUTH_SECRET`           | Long random string                                               |
 | `BLOB_READ_WRITE_TOKEN` | Added automatically when you connect a Blob store to the project |
 | `SEED_DEMO`             | `true` to (re)create the demo account on every deploy            |
+| `ANTHROPIC_API_KEY`     | Optional: enables the AI assistant on the Today screen           |
 | `AUTH_GOOGLE_*` / `AUTH_GITHUB_*` | Optional OAuth keys                                    |
 
 ## Project structure

@@ -66,7 +66,7 @@ export function ReadingView({ books, finishedLabels }: Props) {
                     aria-valuemax={100}
                     aria-valuenow={percent}
                   >
-                    <div className="h-full rounded-full bg-accent" style={{ width: `${percent}%` }} />
+                    <div className="h-full rounded-full bg-accent-fill" style={{ width: `${percent}%` }} />
                   </div>
                 )}
                 <Button type="button" variant="secondary" onClick={() => setOpen({ kind: "log", book })} className="h-10 text-[15px]">
@@ -158,7 +158,7 @@ type SpineProps = {
 /** A tiny "book cover" made from the title's first letter. */
 function BookSpine({ title }: SpineProps) {
   return (
-    <span className="flex h-16 w-12 shrink-0 items-center justify-center rounded-[6px] bg-gradient-to-br from-accent to-accent/60 text-[22px] font-bold text-white shadow-sm">
+    <span className="flex h-16 w-12 shrink-0 items-center justify-center rounded-[6px] bg-gradient-to-br from-accent-fill to-[#ff9f0a] text-[22px] font-bold text-white shadow-sm">
       {title.charAt(0).toUpperCase()}
     </span>
   );

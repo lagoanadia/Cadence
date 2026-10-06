@@ -50,7 +50,7 @@ export function WorkoutForm({ today, workout, onDone }: WorkoutFormProps) {
                 onChange={() => setCustom(type === "other")}
                 className="peer sr-only"
               />
-              <span className="flex h-9 items-center rounded-full bg-surface px-4 text-[15px] capitalize peer-checked:bg-accent peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
+              <span className="flex h-9 items-center rounded-full bg-surface px-4 text-[15px] capitalize peer-checked:bg-accent-fill peer-checked:text-accent-text peer-focus-visible:ring-2 peer-focus-visible:ring-accent">
                 {type}
               </span>
             </label>
