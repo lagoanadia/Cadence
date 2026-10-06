@@ -129,9 +129,7 @@ export function AssistantCard({ enabled }: Props) {
       </header>
 
       {!enabled && (
-        <p className="text-[15px] text-muted">
-          Add an <code className="text-[13px]">ANTHROPIC_API_KEY</code> to the project to switch the assistant on.
-        </p>
+        <p className="text-[15px] text-muted">The assistant isn&apos;t set up yet — ask the admin to enable it.</p>
       )}
 
       {enabled && phase.name === "input" && (

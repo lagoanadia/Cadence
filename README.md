@@ -92,7 +92,7 @@ Vercel runs the `vercel-build` script, which **applies database migrations autom
 | `AUTH_SECRET`           | Long random string                                               |
 | `BLOB_READ_WRITE_TOKEN` | Added automatically when you connect a Blob store to the project |
 | `SEED_DEMO`             | `true` to (re)create the demo account on every deploy            |
-| `ANTHROPIC_API_KEY`     | Optional: enables the AI assistant on the Today screen           |
+| `GROQ_API_KEY`          | Optional: enables the AI assistant on the Today screen           |
 | `AUTH_GOOGLE_*` / `AUTH_GITHUB_*` | Optional OAuth keys                                    |
 
 ## Project structure

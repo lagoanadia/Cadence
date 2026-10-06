@@ -43,7 +43,7 @@ built the project. `docs/GUIDE.md` is the learning guide written for the user; k
 | Auth.js | next-auth 5 beta | JWT sessions (required by Credentials). Providers: Credentials (bcrypt), Google and GitHub (enabled only if their env vars exist). `AUTH_TRUST_HOST=true` is needed outside Vercel. No automatic account linking by email, on purpose (security: emails aren't verified). |
 | Tailwind | 4 | Tokens + custom `@utility` classes in `src/app/globals.css`. |
 | Zod | 4 | `z.email()`, `{ error: "…" }`. |
-| Anthropic SDK | `@anthropic-ai/sdk` | Used by the assistant. **Load the `claude-api` skill before touching any Claude API code.** |
+| Groq SDK | `groq-sdk` | Used by the assistant (structured outputs via `response_format: json_schema`, `strict: true`). |
 | Others | Vitest, lucide-react, @vercel/blob 2 (private blobs) | |
 
 ## 4. Commands
@@ -133,14 +133,14 @@ assistant (AI on Today), settings.
   (`lib/compress-image.ts`) before upload. Without `BLOB_READ_WRITE_TOKEN`, dev saves to `./.uploads`
   (`LOCAL_UPLOADS=true` forces it in `next start`).
 - **AI assistant** (`features/assistant/`): browser speech recognition fills a textarea →
-  `planAssistantAction` calls Claude (`planner.ts`: `client.beta.messages.parse` +
-  `betaZodOutputFormat(planSchema)`, model `claude-opus-5-5`, effort `low`, cached system prompt,
-  `fallbacks: "default"` with beta `server-side-fallback-2026-07-01`) → the user reviews and unticks
-  proposals → `applyAssistantAction` re-validates and `executeAction` writes, matching names only against
-  the user's rows (`findByName`, accent/case-insensitive). To add an action kind: schema in `plan.ts` →
-  `describeAction` → `executeAction` → test. Disabled (explanatory card) when `ANTHROPIC_API_KEY` is
-  missing. **The real API call has never been tested from the dev sandbox** (no key there); the executor
-  was tested against the DB.
+  `planAssistantAction` calls Groq (`planner.ts`: `client.chat.completions.create` with
+  `response_format: { type: "json_schema", json_schema: { strict: true, schema: z.toJSONSchema(planSchema,
+  { target: "openai" }) } }`, model `openai/gpt-oss-120b` — one of the few Groq models that support
+  `strict: true`) → the result is re-validated with `planSchema.parse` (the model is untrusted input too)
+  → the user reviews and unticks proposals → `applyAssistantAction` re-validates again and `executeAction`
+  writes, matching names only against the user's rows (`findByName`, accent/case-insensitive). To add an
+  action kind: schema in `plan.ts` → `describeAction` → `executeAction` → test. Disabled (explanatory
+  card) when `GROQ_API_KEY` is missing.
 - Reading: logging pages runs a transaction (log + bookmark), auto-finishes at the last page. Books have
   an optional 1–5 `rating` and `review`.
 - Demo seed (`prisma/seed.ts`): dates relative to today, seeded PRNG (deterministic screenshots), budget
@@ -158,7 +158,8 @@ assistant (AI on Today), settings.
 - Env vars on Vercel: `DATABASE_URL` (Prisma Postgres, Frankfurt), `AUTH_SECRET`, `AUTH_TRUST_HOST`,
   `SEED_DEMO=true` (demo account is reset on every deploy; real users untouched), `BLOB_READ_WRITE_TOKEN`
   (private store `cadence-receipts`), `AUTH_GOOGLE_ID/SECRET`, `AUTH_GITHUB_ID/SECRET` (production only),
-  and **`ANTHROPIC_API_KEY` (she may not have added it yet: ask)**. Never print or commit secrets. The
+  and `GROQ_API_KEY` (the AI assistant's key — set on Vercel directly, not something end users configure).
+  Never print or commit secrets. The
   production DB was created with `npx create-db` and had to be *claimed* by the user. If the site loses
   its data, ask whether she claimed it.
 - OAuth callback URLs are registered for `https://cadence-amber-iota.vercel.app` only. Google was verified
@@ -172,7 +173,8 @@ assistant (AI on Today), settings.
 
 - In a Claude Code cloud sandbox: `service postgresql start` (local DB `cadence`/`cadence`, see `.env`),
   `npm run build`, then start `next start` with a pidfile (`kill $(cat pidfile)`; never `pkill -f next`,
-  it kills your own shell). Use `LOCAL_UPLOADS=true` and a fake `ANTHROPIC_API_KEY` to render the assistant.
+  it kills your own shell). Use `LOCAL_UPLOADS=true` and a real `GROQ_API_KEY` to render and test the
+  assistant (a real call is cheap and fast enough to actually run from the sandbox, unlike before).
 - Playwright is not a project dependency: install it in a scratch directory and launch the preinstalled
   Chromium (`/opt/pw-browsers/chromium-*/chrome-linux/chrome`) at 390×844, in both color schemes. Previous
   e2e flows covered: login/wrong password, toggles persisting after reload, quick add, edit, move to today,
@@ -180,8 +182,8 @@ assistant (AI on Today), settings.
   **no data leaks between users**, expense with photo (+ receipt 401/404 for others), budget, categories,
   chores done/undo, pages/finish book, workouts, metrics + chart hover, private mode, contextual "+".
   Reseed (`npm run db:seed`) before each run.
-- The sandbox cannot reach Postgres on port 5432 outside, nor github.com login pages, nor the Anthropic
-  API without a key. Its HTTPS proxy breaks Chromium against external sites, so verify production with
+- The sandbox cannot reach Postgres on port 5432 outside, nor github.com login pages. It CAN reach the
+  Groq API with a key. Its HTTPS proxy breaks Chromium against external sites, so verify production with
   curl.
 
 ## 10. Git

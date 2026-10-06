@@ -1,6 +1,6 @@
 "use server";
 
-import Anthropic from "@anthropic-ai/sdk";
+import Groq from "groq-sdk";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { listChores } from "@/features/chores/queries";
@@ -55,10 +55,10 @@ export async function planAssistantAction(text: string): Promise<PlanResult> {
     if (error instanceof AssistantUnavailableError) {
       return { status: "error", message: "The assistant isn't set up yet (missing API key)." };
     }
-    if (error instanceof Anthropic.RateLimitError) {
+    if (error instanceof Groq.RateLimitError) {
       return { status: "error", message: "Too many requests right now. Try again in a minute." };
     }
-    if (error instanceof Anthropic.APIError) {
+    if (error instanceof Groq.APIError) {
       return { status: "error", message: "The assistant is having trouble. Please try again." };
     }
     throw error;
