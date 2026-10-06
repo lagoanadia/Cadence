@@ -115,9 +115,11 @@ assistant (AI on Today), settings.
 - Light (warm cream) and dark (night blue/teal) themes via `prefers-color-scheme`. Check both.
 - Floating glass capsule tab bar with 7 tabs: Today, Agenda, Money, Home, Areas, Books, Move. Settings is
   a gear icon on Today; Routines & repeating is the 🔁 icon in the Agenda header.
-- Area/category colors come from a **color-blind-validated palette** (`lib/palette.ts`, CSS vars
-  `--c-blue`…). Store the light hex; render with `cssColor(hex)`. Color never carries meaning alone (always
-  with a name/icon). For charts, load the `dataviz` skill first.
+- Area/category colors come from a **monochrome amber palette** (`lib/palette.ts`, CSS vars
+  `--c-blue`… — names are historical, values are all yellow/amber shades now, by product choice). Store
+  the light hex; render with `cssColor(hex)`. Because the swatches aren't hue-distinct, color never
+  carries meaning alone (always with a name/icon) — that's load-bearing now, not just good practice. For
+  charts, load the `dataviz` skill first.
 - Tone: calm and encouraging, never guilt ("could use some love", "Resting — no pressure"). The Health
   module must never mention weight loss or dieting.
 

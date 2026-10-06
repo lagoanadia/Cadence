@@ -170,7 +170,8 @@ hidden `<input>`, so it works with a normal form submission.
   inset like iOS), `section-title`, `large-title`.
 - Components copy iOS patterns: large titles, inset grouped lists, segmented controls, the switch, bottom
   sheets with a grabber, a translucent tab bar with `backdrop-blur`.
-- The area/category palette is **validated for color blindness** in light and dark. Colors never carry
+- The area/category palette is **monochrome amber** — all 8 swatches are shades of yellow, by product
+  choice, not a rainbow of hues. That means color alone can't tell two areas apart, so colors never carry
   meaning alone: there's always a name or icon next to them.
 
 ## Testing

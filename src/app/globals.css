@@ -39,15 +39,17 @@
   --warning-soft: rgba(255, 179, 64, 0.22);
   --success: #1e7d3a;
 
-  /* Validated categorical palette (areas, categories, charts) — see src/lib/palette.ts */
-  --c-blue: #2a78d6;
-  --c-orange: #eb6834;
-  --c-aqua: #1baf7a;
+  /* Monochrome amber ramp (areas, categories, charts) — see src/lib/palette.ts.
+     Variable names are historical (they used to be different hues); only the
+     values changed, so nothing that reads --c-blue etc. needed to move. */
+  --c-blue: #c17800;
+  --c-orange: #f2b705;
+  --c-aqua: #d98f1f;
   --c-yellow: #eda100;
-  --c-magenta: #e87ba4;
-  --c-green: #008300;
-  --c-violet: #4a3aa7;
-  --c-red: #e34948;
+  --c-magenta: #a8651a;
+  --c-green: #8f5d00;
+  --c-violet: #6b4a00;
+  --c-red: #4a2e00;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,14 +79,14 @@
     --warning-soft: rgba(255, 179, 64, 0.16);
     --success: #30d158;
 
-    --c-blue: #3987e5;
-    --c-orange: #d95926;
-    --c-aqua: #199e70;
-    --c-yellow: #c98500;
-    --c-magenta: #d55181;
-    --c-green: #008300;
-    --c-violet: #9085e9;
-    --c-red: #e66767;
+    --c-blue: #e0a106;
+    --c-orange: #ffcf33;
+    --c-aqua: #f4b400;
+    --c-yellow: #ffd60a;
+    --c-magenta: #c98500;
+    --c-green: #ad7200;
+    --c-violet: #8f5e00;
+    --c-red: #6b4700;
   }
 }
 

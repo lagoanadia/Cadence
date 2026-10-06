@@ -1,18 +1,24 @@
 // The 8 colors users can pick for areas and expense categories.
-// They come from a palette validated for color-blind safety and contrast in
-// both light and dark mode (run through a validator, not chosen "by eye").
+// By product choice the app is monochrome amber now (no rainbow palette): all
+// 8 are shades of yellow/amber, not distinct hues. That means they are NOT
+// reliably colorblind-distinguishable from each other by color alone — every
+// place that shows one of these also shows the area/category's name or icon
+// right next to it, which is what actually identifies it.
+// The `name` keys are historical (they used to match a hue, e.g. "blue" was
+// blue); they're kept as stable ids so existing data and code don't need to
+// change, they just no longer describe the color.
 // The database stores the LIGHT hex; on screen we use a CSS variable, so the
 // color automatically switches to its dark-mode version.
 
 export const PALETTE = [
-  { name: "blue", light: "#2a78d6" },
-  { name: "orange", light: "#eb6834" },
-  { name: "aqua", light: "#1baf7a" },
+  { name: "blue", light: "#c17800" },
+  { name: "orange", light: "#f2b705" },
+  { name: "aqua", light: "#d98f1f" },
   { name: "yellow", light: "#eda100" },
-  { name: "magenta", light: "#e87ba4" },
-  { name: "green", light: "#008300" },
-  { name: "violet", light: "#4a3aa7" },
-  { name: "red", light: "#e34948" },
+  { name: "magenta", light: "#a8651a" },
+  { name: "green", light: "#8f5d00" },
+  { name: "violet", light: "#6b4a00" },
+  { name: "red", light: "#4a2e00" },
 ] as const;
 
 export type PaletteName = (typeof PALETTE)[number]["name"];
