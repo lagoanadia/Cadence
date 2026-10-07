@@ -155,8 +155,12 @@ assistant (AI on Today), settings.
 
 ## 8. Deployment and environment
 
-- **Live:** https://cadence-amber-iota.vercel.app — Vercel project `cadence`
-  (`prj_Z0hDpALII2cTqYDTUQe6lcIBlCcC`, team scope `nadia-655a`, Hobby). Linked to GitHub
+- **Live:** https://cadence-organized-life.vercel.app — Vercel project `cadence`
+  (`prj_Z0hDpALII2cTqYDTUQe6lcIBlCcC`, team scope `nadia-655a`, Hobby). The old
+  `cadence-amber-iota.vercel.app` now 307-redirects here at the Vercel domain level (still verified on
+  the project, just no longer primary) — no app code depends on the domain, Auth.js reads it from the
+  request (`AUTH_TRUST_HOST=true`), so renaming it needed no code change, only new OAuth redirect URIs
+  (see below). Linked to GitHub
   `lagoanadia/Cadence`; **every push to `claude/lucid-brahmagupta-cwb3ps` (the only and production branch)
   deploys to production.** Functions region `fra1` (same as the DB).
 - Vercel runs `npm run vercel-build`: `prisma generate && prisma migrate deploy && (seed if SEED_DEMO=true)
@@ -169,8 +173,12 @@ assistant (AI on Today), settings.
   Never print or commit secrets. The
   production DB was created with `npx create-db` and had to be *claimed* by the user. If the site loses
   its data, ask whether she claimed it.
-- OAuth callback URLs are registered for `https://cadence-amber-iota.vercel.app` only. Google was verified
-  to accept the client; GitHub could not be verified from the sandbox (github.com blocked).
+- OAuth callback URLs must be registered in the Google Cloud Console and the GitHub OAuth App settings
+  (not something Claude can do — no console access for either). After the domain rename, both need the
+  new callback added: `https://cadence-organized-life.vercel.app/api/auth/callback/google` and
+  `.../github`, plus `https://cadence-organized-life.vercel.app` as an authorized JavaScript origin for
+  Google. Leaving the old `cadence-amber-iota.vercel.app` ones registered too is harmless. Google was
+  verified to accept the client; GitHub could not be verified from the sandbox (github.com blocked).
 - Vercel MCP works **without** `teamId` (passing the team id gives 403). Build logs and protected
   deployment URLs are not readable through it; check the public alias with curl instead.
 - Local dev for her (Windows, no Docker): clone into a folder outside OneDrive, `npm install`,
