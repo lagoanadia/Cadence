@@ -158,7 +158,7 @@ type SpineProps = {
 /** A tiny "book cover" made from the title's first letter. */
 function BookSpine({ title }: SpineProps) {
   return (
-    <span className="flex h-16 w-12 shrink-0 items-center justify-center rounded-[6px] bg-gradient-to-br from-accent-fill to-[#ff9f0a] text-[22px] font-bold text-white shadow-sm">
+    <span className="flex h-16 w-12 shrink-0 items-center justify-center rounded-[6px] bg-gradient-to-br from-accent-fill to-accent text-[22px] font-bold text-white shadow-sm">
       {title.charAt(0).toUpperCase()}
     </span>
   );

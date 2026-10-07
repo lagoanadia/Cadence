@@ -19,13 +19,13 @@
     radial-gradient(50% 38% at 88% -6%, rgba(52, 199, 89, 0.14), transparent 70%),
     radial-gradient(55% 42% at 6% 102%, rgba(52, 199, 89, 0.08), transparent 70%),
     linear-gradient(180deg, #f8f8f6 0%, #eef0ec 100%);
-  --surface: rgba(255, 255, 255, 0.26);
-  --surface-2: rgba(255, 255, 255, 0.38);
-  --sheet: rgba(250, 250, 248, 0.55);
-  --border: rgba(255, 255, 255, 0.65);
+  --surface: rgba(255, 255, 255, 0.5);
+  --surface-2: rgba(255, 255, 255, 0.64);
+  --sheet: rgba(250, 250, 248, 0.78);
+  --border: rgba(255, 255, 255, 0.75);
   --separator: rgba(60, 60, 67, 0.13);
-  --highlight: rgba(255, 255, 255, 0.85);
-  --sheen: rgba(255, 255, 255, 0.32);
+  --highlight: rgba(255, 255, 255, 0.9);
+  --sheen: rgba(255, 255, 255, 0.4);
   --shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
   --text: #1c1c1e;
   --muted: rgba(60, 60, 67, 0.65);
