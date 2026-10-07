@@ -170,11 +170,11 @@ hidden `<input>`, so it works with a normal form submission.
   inset like iOS), `section-title`, `large-title`.
 - Components copy iOS patterns: large titles, inset grouped lists, segmented controls, the switch, bottom
   sheets with a grabber, a translucent tab bar with `backdrop-blur`.
-- The area/category palette is **monochrome green** — all 8 swatches are shades of green, by product
+- The area/category palette is **monochrome amber** — all 8 swatches are shades of yellow, by product
   choice, not a rainbow of hues. That means color alone can't tell two areas apart, so colors never carry
   meaning alone: there's always a name or icon next to them.
 - Color overall is kept scarce on purpose: backgrounds are near-neutral (near-white in light mode,
-  near-black in dark) with only a faint green glow, not a colored gradient — so the single green accent
+  near-black in dark) with only a faint yellow glow, not a colored gradient — so the single yellow accent
   stands out instead of competing with everything else.
 
 ## Testing

@@ -1,24 +1,24 @@
 // The 8 colors users can pick for areas and expense categories.
-// By product choice the app is monochrome green now (no rainbow palette): all
-// 8 are shades of green, not distinct hues. That means they are NOT reliably
-// colorblind-distinguishable from each other by color alone — every place
-// that shows one of these also shows the area/category's name or icon right
-// next to it, which is what actually identifies it.
+// By product choice the app is monochrome amber now (no rainbow palette): all
+// 8 are shades of yellow/amber, not distinct hues. That means they are NOT
+// reliably colorblind-distinguishable from each other by color alone — every
+// place that shows one of these also shows the area/category's name or icon
+// right next to it, which is what actually identifies it.
 // The `name` keys are historical (they used to match a hue, e.g. "blue" was
-// blue, then they were all amber); they're kept as stable ids so existing
-// data and code don't need to change, they just no longer describe the color.
+// blue, then briefly green); they're kept as stable ids so existing data and
+// code don't need to change, they just no longer describe the color.
 // The database stores the LIGHT hex; on screen we use a CSS variable, so the
 // color automatically switches to its dark-mode version.
 
 export const PALETTE = [
-  { name: "blue", light: "#3dae63" },
-  { name: "orange", light: "#4cc274" },
-  { name: "aqua", light: "#35a05c" },
-  { name: "yellow", light: "#248a3d" },
-  { name: "magenta", light: "#1f7a38" },
-  { name: "green", light: "#1a6b30" },
-  { name: "violet", light: "#155c29" },
-  { name: "red", light: "#0f4a20" },
+  { name: "blue", light: "#c17800" },
+  { name: "orange", light: "#f2b705" },
+  { name: "aqua", light: "#d98f1f" },
+  { name: "yellow", light: "#eda100" },
+  { name: "magenta", light: "#a8651a" },
+  { name: "green", light: "#8f5d00" },
+  { name: "violet", light: "#6b4a00" },
+  { name: "red", light: "#4a2e00" },
 ] as const;
 
 export type PaletteName = (typeof PALETTE)[number]["name"];

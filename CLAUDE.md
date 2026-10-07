@@ -104,26 +104,27 @@ assistant (AI on Today), settings.
 - React lint forbids `setState` inside effects; do it in event handlers.
 - Tests that use relative dates can break as the calendar moves; prefer exact selectors.
 
-## 6. Design system: "liquid glass" with a green accent, color kept scarce
+## 6. Design system: "liquid glass" with a yellow accent, color kept scarce
 
 - Fixed gradient background (`--bg-image`) + translucent surfaces with `backdrop-filter`. Utilities:
   `glass`, `ios-list` (glass card), `ios-rows` (hairline separators, `--row-inset`), `section-title`,
   `large-title`, `display-serif` (Instrument Serif, used sparingly: Today greeting, assistant), `tabular`.
 - The background is deliberately near-neutral (near-white in light, near-black in dark) with just a faint
-  green glow, not a colored gradient — color is scarce on purpose, so the one accent that exists reads.
-  Green has two tokens: **`accent-fill`** (#34C759 fills; text on it = `accent-text`, dark — green is too
-  bright for white text to sit on reliably) and **`accent`** (ink for text/icons, a darker green in light
-  mode so it's readable). Light-mode surfaces are quite transparent (`--surface` at ~0.5 alpha) — she
-  tried a more-transparent version (~0.26) and preferred the less-transparent one; don't lower it again
-  without asking.
-- Light (near-white, barely-green) and dark (near-black, barely-green) themes via `prefers-color-scheme`.
-  Check both. **She has rejected two earlier directions for this screen** (a literal rainbow categorical
-  palette, then a vivid/saturated multi-hue "atmospheric" background) before landing here — don't
-  reintroduce either without being asked.
+  yellow glow, not a colored gradient — color is scarce on purpose, so the one accent that exists reads.
+  Yellow has two tokens: **`accent-fill`** (#FFD60A fills; text on it = `accent-text`, dark — yellow is
+  too bright for white text to sit on reliably) and **`accent`** (ink for text/icons: yellow in dark mode,
+  deep amber #8a6500 in light mode, since pure yellow text is unreadable on a light background).
+  Light-mode surfaces are quite transparent (`--surface` at ~0.5 alpha) — she tried a more-transparent
+  version (~0.26) and preferred the less-transparent one; don't lower it again without asking.
+- Light (near-white, barely-yellow) and dark (near-black, barely-yellow) themes via
+  `prefers-color-scheme`. Check both. **She has rejected two earlier directions for this screen** (a
+  literal rainbow categorical palette, then a vivid/saturated multi-hue "atmospheric" background) and
+  also tried a green accent for a while before coming back to yellow — don't reintroduce any of those
+  without being asked.
 - Floating glass capsule tab bar with 7 tabs: Today, Agenda, Money, Home, Areas, Books, Move. Settings is
   a gear icon on Today; Routines & repeating is the 🔁 icon in the Agenda header.
-- Area/category colors come from a **monochrome green palette** (`lib/palette.ts`, CSS vars
-  `--c-blue`… — names are historical, values are all green shades now, by product choice). Store
+- Area/category colors come from a **monochrome amber palette** (`lib/palette.ts`, CSS vars
+  `--c-blue`… — names are historical, values are all yellow/amber shades now, by product choice). Store
   the light hex; render with `cssColor(hex)`. Because the swatches aren't hue-distinct, color never
   carries meaning alone (always with a name/icon) — that's load-bearing now, not just good practice. For
   charts, load the `dataviz` skill first.

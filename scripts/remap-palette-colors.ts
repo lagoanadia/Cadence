@@ -1,8 +1,8 @@
-// One-time data fix for the palette redesign (rainbow -> amber -> green):
-// existing areas/categories store a literal hex, picked under an older
-// palette generation. New rows pick up the current palette automatically
-// (see src/lib/palette.ts), but old rows keep their old hex forever unless
-// remapped here, by position in the palette array.
+// One-time data fix for the palette redesign (rainbow -> amber -> green ->
+// amber again): existing areas/categories store a literal hex, picked under
+// an older palette generation. New rows pick up the current palette
+// automatically (see src/lib/palette.ts), but old rows keep their old hex
+// forever unless remapped here, by position in the palette array.
 //
 // Runs automatically during `vercel-build` when FIX_PALETTE_COLORS=true is
 // set (same pattern as SEED_DEMO) — never with a hardcoded connection
@@ -13,13 +13,13 @@ import "dotenv/config";
 import { db } from "../src/lib/db";
 
 const OLD_RAINBOW = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"];
-const OLD_AMBER = ["#c17800", "#f2b705", "#d98f1f", "#eda100", "#a8651a", "#8f5d00", "#6b4a00", "#4a2e00"];
-const CURRENT_GREEN = ["#3dae63", "#4cc274", "#35a05c", "#248a3d", "#1f7a38", "#1a6b30", "#155c29", "#0f4a20"];
+const OLD_GREEN = ["#3dae63", "#4cc274", "#35a05c", "#248a3d", "#1f7a38", "#1a6b30", "#155c29", "#0f4a20"];
+const CURRENT_AMBER = ["#c17800", "#f2b705", "#d98f1f", "#eda100", "#a8651a", "#8f5d00", "#6b4a00", "#4a2e00"];
 
 const REMAP = new Map<string, string>();
-for (let i = 0; i < CURRENT_GREEN.length; i++) {
-  REMAP.set(OLD_RAINBOW[i].toLowerCase(), CURRENT_GREEN[i]);
-  REMAP.set(OLD_AMBER[i].toLowerCase(), CURRENT_GREEN[i]);
+for (let i = 0; i < CURRENT_AMBER.length; i++) {
+  REMAP.set(OLD_RAINBOW[i].toLowerCase(), CURRENT_AMBER[i]);
+  REMAP.set(OLD_GREEN[i].toLowerCase(), CURRENT_AMBER[i]);
 }
 
 async function remap(label: string, rows: { id: string; name: string; color: string }[], update: (id: string, color: string) => Promise<unknown>) {
